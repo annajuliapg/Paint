@@ -62,7 +62,7 @@ public class Circulo extends Figura
     public void torneSeVisivel (Graphics g)
     {
         g.setColor(this.cor);
-        g.drawOval(this.centro.getX(), this.centro.getY(),   // centro
+        g.drawOval(this.centro.getX() - this.raio, this.centro.getY()-this.raio,   // centro
                    2*this.raio, 2*this.raio);               // diametro
     }
 
