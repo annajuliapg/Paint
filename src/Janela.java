@@ -37,10 +37,10 @@ public class Janela extends JFrame
 
         try
         {
-            Image btnPontoImg = ImageIO.read(getClass().getResource("resources/ponto.jpg"));
+            final Image btnPontoImg = ImageIO.read(getClass().getResource("resources/ponto.jpg"));
             btnPonto.setIcon(new ImageIcon(btnPontoImg));
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
                                            "Arquivo ponto.jpg n�o foi encontrado",
@@ -50,10 +50,10 @@ public class Janela extends JFrame
 
         try
         {
-            Image btnLinhaImg = ImageIO.read(getClass().getResource("resources/linha.jpg"));
+            final Image btnLinhaImg = ImageIO.read(getClass().getResource("resources/linha.jpg"));
             btnLinha.setIcon(new ImageIcon(btnLinhaImg));
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
                                            "Arquivo linha.jpg n�o foi encontrado",
@@ -63,10 +63,10 @@ public class Janela extends JFrame
 
         try
         {
-            Image btnCirculoImg = ImageIO.read(getClass().getResource("resources/circulo.jpg"));
+            final Image btnCirculoImg = ImageIO.read(getClass().getResource("resources/circulo.jpg"));
             btnCirculo.setIcon(new ImageIcon(btnCirculoImg));
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
                                            "Arquivo circulo.jpg n�o foi encontrado",
@@ -76,10 +76,10 @@ public class Janela extends JFrame
 
         try
         {
-            Image btnElipseImg = ImageIO.read(getClass().getResource("resources/elipse.jpg"));
+            final Image btnElipseImg = ImageIO.read(getClass().getResource("resources/elipse.jpg"));
             btnElipse.setIcon(new ImageIcon(btnElipseImg));
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
                                            "Arquivo elipse.jpg n�o foi encontrado",
@@ -89,10 +89,10 @@ public class Janela extends JFrame
 
         try
         {
-            Image btnCoresImg = ImageIO.read(getClass().getResource("resources/cores.jpg"));
+            final Image btnCoresImg = ImageIO.read(getClass().getResource("resources/cores.jpg"));
             btnCores.setIcon(new ImageIcon(btnCoresImg));
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
                                            "Arquivo cores.jpg n�o foi encontrado",
@@ -102,10 +102,10 @@ public class Janela extends JFrame
 
         try
         {
-            Image btnAbrirImg = ImageIO.read(getClass().getResource("resources/abrir.jpg"));
+            final Image btnAbrirImg = ImageIO.read(getClass().getResource("resources/abrir.jpg"));
             btnAbrir.setIcon(new ImageIcon(btnAbrirImg));
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
                                            "Arquivo abrir.jpg n�o foi encontrado",
@@ -115,10 +115,10 @@ public class Janela extends JFrame
 
         try
         {
-            Image btnSalvarImg = ImageIO.read(getClass().getResource("resources/salvar.jpg"));
+            final Image btnSalvarImg = ImageIO.read(getClass().getResource("resources/salvar.jpg"));
             btnSalvar.setIcon(new ImageIcon(btnSalvarImg));
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
                                            "Arquivo salvar.jpg n�o foi encontrado",
@@ -128,10 +128,10 @@ public class Janela extends JFrame
 
         try
         {
-            Image btnApagarImg = ImageIO.read(getClass().getResource("resources/apagar.jpg"));
+            final Image btnApagarImg = ImageIO.read(getClass().getResource("resources/apagar.jpg"));
             btnApagar.setIcon(new ImageIcon(btnApagarImg));
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
                                            "Arquivo apagar.jpg n�o foi encontrado",
@@ -141,10 +141,10 @@ public class Janela extends JFrame
 
         try
         {
-            Image btnSairImg = ImageIO.read(getClass().getResource("resources/sair.jpg"));
+            final Image btnSairImg = ImageIO.read(getClass().getResource("resources/sair.jpg"));
             btnSair.setIcon(new ImageIcon(btnSairImg));
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
                                            "Arquivo sair.jpg n�o foi encontrado",
@@ -156,8 +156,8 @@ public class Janela extends JFrame
         btnLinha.addActionListener (new DesenhoDeReta ());
         btnCirculo.addActionListener (new DesenhoDeCirculo ());
 
-        JPanel     pnlBotoes = new JPanel();
-        FlowLayout flwBotoes = new FlowLayout(); 
+        final JPanel     pnlBotoes = new JPanel();
+        final FlowLayout flwBotoes = new FlowLayout(); 
         pnlBotoes.setLayout (flwBotoes);
 
         pnlBotoes.add (btnAbrir);
@@ -170,14 +170,14 @@ public class Janela extends JFrame
         pnlBotoes.add (btnApagar);
         pnlBotoes.add (btnSair);
 
-        JPanel     pnlStatus = new JPanel();
-        GridLayout grdStatus = new GridLayout(1,2);
+        final JPanel     pnlStatus = new JPanel();
+        final GridLayout grdStatus = new GridLayout(1,2);
         pnlStatus.setLayout(grdStatus);
 
         pnlStatus.add(statusBar1);
         pnlStatus.add(statusBar2);
 
-        Container cntForm = this.getContentPane();
+        final Container cntForm = this.getContentPane();
         cntForm.setLayout (new BorderLayout());
         cntForm.add (pnlBotoes,  BorderLayout.NORTH);
         cntForm.add (pnlDesenho, BorderLayout.CENTER);
@@ -193,7 +193,12 @@ public class Janela extends JFrame
                               implements MouseListener,
                                          MouseMotionListener
     {
-	public MeuJPanel()
+	    /**
+        	 *
+        	 */
+        private static final long serialVersionUID = 1L;
+
+        public MeuJPanel()
         {
             super();
 
@@ -201,13 +206,13 @@ public class Janela extends JFrame
             this.addMouseMotionListener (this);
         }
 
-        public void paint (Graphics g)
+        public void paint (final Graphics g)
         {
             for (int i=0 ; i<figuras.size(); i++)
                 figuras.get(i).torneSeVisivel(g);
         }
         
-        public void mousePressed (MouseEvent e)
+        public void mousePressed (final MouseEvent e)
         {
             if (esperaPonto)
             {
@@ -244,7 +249,7 @@ public class Janela extends JFrame
 							if (esperaRaio)
 							{
                                 esperaRaio = false;
-								int raio = (int)(Math.round ( Math.sqrt (
+								final int raio = (int)(Math.round ( Math.sqrt (
 								Math.pow (e.getY() - p1.getY(),2) + Math.pow (e.getX() - p1.getX(),2))));
 								figuras.add (new Circulo(p1.getX(), p1.getY(), raio, corAtual));
 								figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
@@ -253,22 +258,22 @@ public class Janela extends JFrame
 							}
         }
         
-        public void mouseReleased (MouseEvent e)
+        public void mouseReleased (final MouseEvent e)
         {}
         
-        public void mouseClicked (MouseEvent e)
+        public void mouseClicked (final MouseEvent e)
         {}
         
-        public void mouseEntered (MouseEvent e)
+        public void mouseEntered (final MouseEvent e)
         {}
 
-        public void mouseExited (MouseEvent e)
+        public void mouseExited (final MouseEvent e)
         {}
         
-        public void mouseDragged(MouseEvent e)
+        public void mouseDragged(final MouseEvent e)
         {}
 
-        public void mouseMoved(MouseEvent e)
+        public void mouseMoved(final MouseEvent e)
         {
             statusBar2.setText("Coordenada: "+e.getX()+","+e.getY());
         }
@@ -276,7 +281,7 @@ public class Janela extends JFrame
 
     protected class DesenhoDePonto implements ActionListener
     {
-          public void actionPerformed (ActionEvent e)    
+          public void actionPerformed (final ActionEvent e)    
           {
               esperaPonto      = true;
               esperaInicioReta = false;
@@ -291,7 +296,7 @@ public class Janela extends JFrame
 
     protected class DesenhoDeReta implements ActionListener
     {
-        public void actionPerformed (ActionEvent e)    
+        public void actionPerformed (final ActionEvent e)    
         {
             esperaPonto      = false;
             esperaInicioReta = true;
@@ -306,7 +311,7 @@ public class Janela extends JFrame
 
 	protected class DesenhoDeCirculo implements ActionListener
     {
-        public void actionPerformed (ActionEvent e)    
+        public void actionPerformed (final ActionEvent e)    
         {
             esperaPonto      = false;
             esperaInicioReta = false;
@@ -321,7 +326,7 @@ public class Janela extends JFrame
 
     protected class FechamentoDeJanela extends WindowAdapter
     {
-        public void windowClosing (WindowEvent e)
+        public void windowClosing (final WindowEvent e)
         {
             System.exit(0);
         }
