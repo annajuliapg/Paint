@@ -47,7 +47,9 @@ git clone https://github.com/annajuliapg/Paint.git
 **Subir arquivos**
 
 git add .
+
 git commit -m " qualquer mensagem "
+
 git push origin <branch>
 
 
