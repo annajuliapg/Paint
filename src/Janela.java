@@ -219,6 +219,19 @@ public class Janela extends JFrame
             {
                 figuras.add (new Ponto (e.getX(), e.getY(), corAtual));
                 figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                
+                figuras.add (new Ponto (e.getX() + 1, e.getY(), corAtual));
+                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                
+                figuras.add (new Ponto (e.getX() - 1, e.getY(), corAtual));
+                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                
+                figuras.add (new Ponto (e.getX(), e.getY() + 1, corAtual));
+                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                
+                figuras.add (new Ponto (e.getX(), e.getY() - 1, corAtual));
+                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                
                 esperaPonto = true;
                 statusBar1.setText("Dica: clique no local do ponto que deseja");
                 

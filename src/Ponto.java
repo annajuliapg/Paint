@@ -57,7 +57,10 @@ public class Ponto extends Figura
     public void torneSeVisivel (Graphics g)
     {
     	g.setColor (this.cor);
-    	g.drawLine (this.x,this.y,this.x,this.y);
+    	g.drawLine (this.x,this.y,this.x + 1,this.y);
+        g.drawLine (this.x,this.y,this.x,this.y + 1);
+        g.drawLine (this.x,this.y,this.x - 1,this.y);
+        g.drawLine (this.x,this.y,this.x,this.y - 1);
     }
 
     public String toString()
