@@ -71,15 +71,17 @@ public class Circulo extends Figura
 
     public void torneSeVisivel (Graphics g)
     {
+        g.setColor(this.preenchimento);
+        
+        g.fillOval (this.centro.getX() - this.raio, this.centro.getY()-this.raio,   //preenchendo o círculo
+                   2*this.raio, 2*this.raio);
+        
         g.setColor(this.contorno);
         
         g.drawOval(this.centro.getX() - this.raio, this.centro.getY()-this.raio,   // centro
                    2*this.raio, 2*this.raio);                                      // diametro
         
-        g.setColor(this.preenchimento);
         
-        g.fillOval (this.centro.getX() - this.raio, this.centro.getY()-this.raio,   //preenchendo o círculo
-                   2*this.raio, 2*this.raio);
 
         
     }

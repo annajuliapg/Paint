@@ -71,7 +71,7 @@ public class Elipse extends Figura
         
         Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                Integer.parseInt(quebrador.nextToken()),            // G
-                               Integer.parseInt(quebrador.nextToken()));            // B
+                               Integer.parseInt(quebrador.nextToken()));           // B
                                
 
          
@@ -130,17 +130,19 @@ public class Elipse extends Figura
 
     public void torneSeVisivel (Graphics g)
     {
+        g.setColor(this.preenchimento);
+        
+        g.fillOval(this.p1.getX(), this.p1.getY(),   // preenchendo a elipse
+                   this.largura,                     
+                   this.altura);
+        
         g.setColor(this.contorno);
         
         g.drawOval(this.p1.getX(), this.p1.getY(),   // ponto x1,y1
                    this.largura,                     // largura
                    this.altura);                     // altura
         
-        g.setColor(this.preenchimento);
         
-        g.fillOval(this.p1.getX(), this.p1.getY(),   // preenchendo a elipse
-                   this.largura,                     
-                   this.altura);
       
     }
 

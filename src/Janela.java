@@ -35,7 +35,7 @@ public class Janela extends JFrame
 
     public Janela ()
     {
-        super("Editor Gr�fico");
+        super("Editor Gráfico");
 
         try
         {
@@ -45,7 +45,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo ponto.jpg n�o foi encontrado",
+                                           "Arquivo ponto.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -58,7 +58,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo linha.jpg n�o foi encontrado",
+                                           "Arquivo linha.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -71,7 +71,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo circulo.jpg n�o foi encontrado",
+                                           "Arquivo circulo.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -84,7 +84,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo elipse.jpg n�o foi encontrado",
+                                           "Arquivo elipse.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -97,7 +97,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo cores.jpg n�o foi encontrado",
+                                           "Arquivo cores.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -110,7 +110,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo cores.jpg n�o foi encontrado",
+                                           "Arquivo cores.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -123,7 +123,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo abrir.jpg n�o foi encontrado",
+                                           "Arquivo abrir.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -136,7 +136,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo salvar.jpg n�o foi encontrado",
+                                           "Arquivo salvar.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -149,7 +149,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo apagar.jpg n�o foi encontrado",
+                                           "Arquivo apagar.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -162,7 +162,7 @@ public class Janela extends JFrame
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo sair.jpg n�o foi encontrado",
+                                           "Arquivo sair.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
@@ -214,9 +214,7 @@ public class Janela extends JFrame
                               implements MouseListener,
                                          MouseMotionListener
     {
-	    /**
-        	 *
-        	 */
+	    
         private static final long serialVersionUID = 1L;
 
         public MeuJPanel()
@@ -417,7 +415,7 @@ public class Janela extends JFrame
     private class EscolherCorContorno implements ActionListener {
         public void actionPerformed (ActionEvent e) {
             JColorChooser javacor = new JColorChooser();
-            Color corContorno = javacor.showDialog(btnCorContorno, "Selecione a cor que deseja", Color.black);
+            Color corContorno = javacor.showDialog(btnCorContorno, "Selecione a Cor Desejada", Color.black);
             corAtualContorno = corContorno;
         }
     }
@@ -425,7 +423,7 @@ public class Janela extends JFrame
     private class EscolherCorPreenchimento implements ActionListener {
         public void actionPerformed (ActionEvent e) {
             JColorChooser javacor = new JColorChooser();
-            Color corPreenchimento = javacor.showDialog(btnCorPreenchimento, "Selecione a cor que deseja", Color.black);
+            Color corPreenchimento = javacor.showDialog(btnCorPreenchimento, "Selecione a Cor Desejada", Color.black);
             corAtualPreenchimento = corPreenchimento;
         }
     }
