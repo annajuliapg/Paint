@@ -51,6 +51,13 @@ git add .
 git commit -m " qualquer mensagem "
 
 git push origin <branch>
+  
+
+**Atualizar pasta no computador**
+
+git pull
+
+git commit -m " qualquer mensagem "
 
 
 **Criar novo branch**
