@@ -5,9 +5,9 @@ Fase I
 
 a)Implementar validações nas classes prontas.
 
-b)Implementar coloração de contorno.
+**b)Implementar coloração de contorno. OK**
 
-c)Implementar coloração de interior, quando cabível.
+**c)Implementar coloração de interior, quando cabível. OK**
 
 **d)Implementar o desenho de círculo. OK**
 
