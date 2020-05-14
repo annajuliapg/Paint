@@ -148,7 +148,7 @@ public class Elipse extends Figura
 
     public String toString()
     {
-        return "p1:" +
+        return "e:" +
                this.p1.getX() +
                ":" +
                this.p1.getY() +
