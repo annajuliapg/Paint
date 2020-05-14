@@ -3,7 +3,7 @@ import java.util.*;
  
 public class Ponto extends Figura
 {
-    protected int x,  y;
+    protected int x, y;
 
     public Ponto (int x, int y)
     {

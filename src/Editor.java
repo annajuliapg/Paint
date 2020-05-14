@@ -5,5 +5,3 @@ public class Editor
         new Janela ();
     }
 }
-
-//TESTEEEEEEEEEEEEEEEEEEEEEEE 4
