@@ -5,7 +5,6 @@ public class Elipse extends Figura
 {
     protected Ponto p1, p2;
     protected int largura, altura;
-    protected int aux;
     
     public Elipse (int x1, int y1, int x2, int y2, int largura, int altura)
     {
