@@ -174,6 +174,8 @@ public class Janela extends JFrame
         btnCorContorno.addActionListener (new EscolherCorContorno ());
         btnCorPreenchimento.addActionListener (new EscolherCorPreenchimento ());
         
+        btnApagar.addActionListener (new ApagarUltimoDesenho());
+        
 
         final JPanel     pnlBotoes = new JPanel();
         final FlowLayout flwBotoes = new FlowLayout(); 
@@ -236,18 +238,6 @@ public class Janela extends JFrame
             if (esperaPonto)
             {
                 figuras.add (new Ponto (e.getX(), e.getY(), corAtualContorno));
-                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                
-                figuras.add (new Ponto (e.getX() + 1, e.getY(), corAtualContorno));
-                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                
-                figuras.add (new Ponto (e.getX() - 1, e.getY(), corAtualContorno));
-                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                
-                figuras.add (new Ponto (e.getX(), e.getY() + 1, corAtualContorno));
-                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                
-                figuras.add (new Ponto (e.getX(), e.getY() - 1, corAtualContorno));
                 figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                 
                 esperaPonto = true;
@@ -409,6 +399,17 @@ public class Janela extends JFrame
             esperaCantoFinalElipse    = false;
             
             statusBar1.setText("Dica: clique em um canto da elipse");
+        }
+    }
+    
+    
+    protected class ApagarUltimoDesenho implements ActionListener // apagando o ultimo desenho
+    {
+        public void actionPerformed (final ActionEvent e)    
+        {
+           figuras.remove(figuras.size()-1); // remove o ultimo salvo
+           
+           repaint(); // desenha de novo
         }
     }
 
