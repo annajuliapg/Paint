@@ -32,6 +32,7 @@ public class Ponto extends Figura
                               Integer.parseInt(quebrador.nextToken())); // B
     }
 
+    // setters
     public void setX (int x)
     {
         this.x = x;
@@ -42,6 +43,7 @@ public class Ponto extends Figura
         this.y = y;
     }
 	  
+    // getters
     public int getX ()
     {
         return this.x;

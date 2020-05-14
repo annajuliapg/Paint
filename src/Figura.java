@@ -13,12 +13,14 @@ public abstract class Figura
     {
         this.cor = cor;
     }
-	  
+    
+    // setter
     public void setCor (Color cor)
     {
         this.cor = cor;
     }
-	  
+    
+    // getter
     public Color getCor()
     {
     	return this.cor;

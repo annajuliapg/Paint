@@ -39,6 +39,7 @@ public class Linha extends Figura
         this.cor = cor;
     }
 
+    // setters
     public void setP1 (int x, int y)
     {
         this.p1 = new Ponto (x,y,this.getCor());
@@ -49,6 +50,7 @@ public class Linha extends Figura
         this.p2 = new Ponto (x,y,this.getCor());
     }
 
+    // getters
     public Ponto getP1 ()
     {
         return this.p1;

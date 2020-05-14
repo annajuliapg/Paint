@@ -39,6 +39,7 @@ public class Circulo extends Figura
         this.cor = cor;
     }
 
+    // setters
     public void setCentro (int x, int y)
     {
         this.centro = new Ponto (x,y,this.getCor());
@@ -49,6 +50,7 @@ public class Circulo extends Figura
         this.raio = raio;
     }
 
+    // getters
     public Ponto getCentro ()
     {
         return this.centro;
