@@ -9,15 +9,16 @@ public class Janela extends JFrame
 {
     protected static final long serialVersionUID = 1L;
 
-    protected JButton btnPonto   = new JButton ("Ponto"),
-                      btnLinha   = new JButton ("Linha"),
-                      btnCirculo = new JButton ("Circulo"),
-                      btnElipse  = new JButton ("Elipse"),
-                      btnCores   = new JButton ("Cores"),
-                      btnAbrir   = new JButton ("Abrir"),
-                      btnSalvar  = new JButton ("Salvar"),
-                      btnApagar  = new JButton ("Apagar"),
-                      btnSair    = new JButton ("Sair");
+    protected JButton btnPonto              = new JButton ("Ponto"),
+                      btnLinha              = new JButton ("Linha"),
+                      btnCirculo            = new JButton ("Circulo"),
+                      btnElipse             = new JButton ("Elipse"),
+                      btnCorContorno        = new JButton ("Cor Contorno"),
+                      btnCorPreenchimento   = new JButton ("Cor Preenchimento"),
+                      btnAbrir              = new JButton ("Abrir"),
+                      btnSalvar             = new JButton ("Salvar"),
+                      btnApagar             = new JButton ("Apagar"),
+                      btnSair               = new JButton ("Sair");
 
     protected MeuJPanel pnlDesenho = new MeuJPanel ();
     
@@ -26,7 +27,8 @@ public class Janela extends JFrame
 
     protected boolean esperaPonto, esperaInicioReta, esperaFimReta, esperaCentroCirculo, esperaRaioCirculo, esperaCantoInicalElipse, esperaCantoFinalElipse;
 
-    protected Color corAtual = Color.BLACK;
+    protected Color corAtualContorno = Color.BLACK;
+    protected Color corAtualPreenchimento;
     protected Ponto p1;
     
     protected Vector<Figura> figuras = new Vector<Figura>();
@@ -90,7 +92,20 @@ public class Janela extends JFrame
         try
         {
             final Image btnCoresImg = ImageIO.read(getClass().getResource("resources/cores.jpg"));
-            btnCores.setIcon(new ImageIcon(btnCoresImg));
+            btnCorContorno.setIcon(new ImageIcon(btnCoresImg));
+        }
+        catch (final IOException e)
+        {
+            JOptionPane.showMessageDialog (null,
+                                           "Arquivo cores.jpg n�o foi encontrado",
+                                           "Arquivo de imagem ausente",
+                                           JOptionPane.WARNING_MESSAGE);
+        }
+        
+        try
+        {
+            final Image btnCoresImg = ImageIO.read(getClass().getResource("resources/cores.jpg"));
+            btnCorPreenchimento.setIcon(new ImageIcon(btnCoresImg));
         }
         catch (final IOException e)
         {
@@ -156,6 +171,9 @@ public class Janela extends JFrame
         btnLinha.addActionListener (new DesenhoDeReta ());
         btnCirculo.addActionListener (new DesenhoDeCirculo ());
         btnElipse.addActionListener (new DesenhoDeElipse ());
+        btnCorContorno.addActionListener (new EscolherCorContorno ());
+        btnCorPreenchimento.addActionListener (new EscolherCorPreenchimento ());
+        
 
         final JPanel     pnlBotoes = new JPanel();
         final FlowLayout flwBotoes = new FlowLayout(); 
@@ -167,7 +185,9 @@ public class Janela extends JFrame
         pnlBotoes.add (btnLinha);
         pnlBotoes.add (btnCirculo);
         pnlBotoes.add (btnElipse);
-        pnlBotoes.add (btnCores);
+        pnlBotoes.add (btnCorContorno);
+        pnlBotoes.add (btnCorPreenchimento);
+        
         pnlBotoes.add (btnApagar);
         pnlBotoes.add (btnSair);
 
@@ -217,19 +237,19 @@ public class Janela extends JFrame
         {
             if (esperaPonto)
             {
-                figuras.add (new Ponto (e.getX(), e.getY(), corAtual));
+                figuras.add (new Ponto (e.getX(), e.getY(), corAtualContorno));
                 figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                 
-                figuras.add (new Ponto (e.getX() + 1, e.getY(), corAtual));
+                figuras.add (new Ponto (e.getX() + 1, e.getY(), corAtualContorno));
                 figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                 
-                figuras.add (new Ponto (e.getX() - 1, e.getY(), corAtual));
+                figuras.add (new Ponto (e.getX() - 1, e.getY(), corAtualContorno));
                 figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                 
-                figuras.add (new Ponto (e.getX(), e.getY() + 1, corAtual));
+                figuras.add (new Ponto (e.getX(), e.getY() + 1, corAtualContorno));
                 figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                 
-                figuras.add (new Ponto (e.getX(), e.getY() - 1, corAtual));
+                figuras.add (new Ponto (e.getX(), e.getY() - 1, corAtualContorno));
                 figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                 
                 esperaPonto = true;
@@ -239,7 +259,7 @@ public class Janela extends JFrame
             else
                 if (esperaInicioReta)
                 {
-                    p1 = new Ponto (e.getX(), e.getY(), corAtual);
+                    p1 = new Ponto (e.getX(), e.getY(), corAtualContorno);
                     esperaInicioReta = false;
                     esperaFimReta = true;
                     statusBar1.setText("Dica: clique no ponto final da reta");    
@@ -248,7 +268,7 @@ public class Janela extends JFrame
                     if (esperaFimReta)
                     {
                         esperaFimReta = false;
-                        figuras.add (new Linha(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual));
+                        figuras.add (new Linha(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtualContorno));
                         figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                         statusBar1.setText("Dica: clique no ponto inicial da reta");
                         esperaInicioReta = true;    
@@ -256,7 +276,7 @@ public class Janela extends JFrame
                     else
 				if (esperaCentroCirculo)
 				{
-                                    p1 = new Ponto (e.getX(), e.getY(), corAtual);
+                                    p1 = new Ponto (e.getX(), e.getY(), corAtualContorno);
                                     esperaCentroCirculo = false;
                                     esperaRaioCirculo = true;
                                     statusBar1.setText("Dica: clique em um ponto do circulo");
@@ -269,7 +289,7 @@ public class Janela extends JFrame
                                     final int raio = (int)(Math.round ( Math.sqrt (
                                     Math.pow (e.getY() - p1.getY(),2) + Math.pow (e.getX() - p1.getX(),2))));
                                     
-                                    figuras.add (new Circulo(p1.getX(), p1.getY(), raio, corAtual));
+                                    figuras.add (new Circulo(p1.getX(), p1.getY(), raio, corAtualContorno, corAtualPreenchimento));
                                     figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                                     
                                     statusBar1.setText("Dica: clique no centro do circulo");
@@ -278,7 +298,7 @@ public class Janela extends JFrame
                                 else
                                     if(esperaCantoInicalElipse)
                                     {
-                                        p1 = new Ponto (e.getX(), e.getY(), corAtual);
+                                        p1 = new Ponto (e.getX(), e.getY(), corAtualContorno);
                                         esperaCantoInicalElipse = false;
                                         esperaCantoFinalElipse = true;
                                         statusBar1.setText("Dica: clique no outro canto da elipse");
@@ -292,7 +312,7 @@ public class Janela extends JFrame
                                             final int altura = Math.abs ((int)(e.getY() - p1.getY()));  // modulo
                                         
                                                                              
-                                        figuras.add (new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtual));
+                                        figuras.add (new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtualContorno, corAtualPreenchimento));
                                         
                                         figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                                         
@@ -394,6 +414,23 @@ public class Janela extends JFrame
         }
     }
 
+    private class EscolherCorContorno implements ActionListener {
+        public void actionPerformed (ActionEvent e) {
+            JColorChooser javacor = new JColorChooser();
+            Color corContorno = javacor.showDialog(btnCorContorno, "Selecione a cor que deseja", Color.black);
+            corAtualContorno = corContorno;
+        }
+    }
+    
+    private class EscolherCorPreenchimento implements ActionListener {
+        public void actionPerformed (ActionEvent e) {
+            JColorChooser javacor = new JColorChooser();
+            Color corPreenchimento = javacor.showDialog(btnCorPreenchimento, "Selecione a cor que deseja", Color.black);
+            corAtualPreenchimento = corPreenchimento;
+        }
+    }
+    
+    
     protected class FechamentoDeJanela extends WindowAdapter
     {
         public void windowClosing (final WindowEvent e)

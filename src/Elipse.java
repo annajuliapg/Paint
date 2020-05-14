@@ -8,41 +8,41 @@ public class Elipse extends Figura
     
     public Elipse (int x1, int y1, int x2, int y2, int largura, int altura)
     {
-        this (x1, y1, x2, y2, largura, altura, Color.BLACK);
+        this (x1, y1, x2, y2, largura, altura, Color.BLACK, Color.WHITE);
     }
 	
-    public Elipse (int x1, int y1, int x2, int y2, int largura, int altura, Color cor)
+    public Elipse (int x1, int y1, int x2, int y2, int largura, int altura, Color contorno, Color preenchimento)
     {
-        super(cor);        
+        super(contorno, preenchimento);
         
         if(x2 < x1)
         {
             if(y2 < y1) // x e y menores
             {   
                 // troca os dois
-                this.p1 = new Ponto (x2,y2,cor); 
-                this.p2 = new Ponto (x1,y1,cor);
+                this.p1 = new Ponto (x2,y2); 
+                this.p2 = new Ponto (x1,y1);
                 
             }
             else // só o x menor
             {
                 // troca o x
-                this.p1 = new Ponto (x2,y1,cor); 
-                this.p2 = new Ponto (x1,y2,cor);
+                this.p1 = new Ponto (x2,y1); 
+                this.p2 = new Ponto (x1,y2);
             }                
         }
         else
             if(y2 < y1) // só o y menor
             {
                 // troca o y
-                this.p1 = new Ponto (x1,y2,cor);
-                this.p2 = new Ponto (x2,y1,cor);
+                this.p1 = new Ponto (x1,y2);
+                this.p2 = new Ponto (x2,y1);
             }
             else // nenhum menor
             {
                 // mantém normal
-                this.p1 = new Ponto (x1,y1,cor);
-                this.p2 = new Ponto (x2,y2,cor);
+                this.p1 = new Ponto (x1,y1);
+                this.p2 = new Ponto (x2,y2);
             }
         
         this.largura = largura;
@@ -65,29 +65,36 @@ public class Elipse extends Figura
         int   largura  = Integer.parseInt(quebrador.nextToken());
         int   altura  = Integer.parseInt(quebrador.nextToken());
 
-        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),  // G
-                               Integer.parseInt(quebrador.nextToken())); // B
+        Color contorno = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                               Integer.parseInt(quebrador.nextToken()),       // G
+                               Integer.parseInt(quebrador.nextToken()));      // B
+        
+        Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                               Integer.parseInt(quebrador.nextToken()),            // G
+                               Integer.parseInt(quebrador.nextToken()));            // B
+                               
 
          
         
-        this.p1 = new Ponto (x1,y1,cor);
-        this.p2 = new Ponto (x2,y2,cor);
+        this.p1 = new Ponto (x1,y1);
+        this.p2 = new Ponto (x2,y2);
                     
         this.largura = largura;
-        
         this.altura = altura;
+        
+        this.contorno = contorno;
+        this.preenchimento = preenchimento;
     }
 
     //setters
     public void setP1 (int x, int y)
     {
-        this.p1 = new Ponto (x,y,this.getCor());
+        this.p1 = new Ponto (x,y);
     }
 
     public void setP2 (int x, int y)
     {
-        this.p2 = new Ponto (x,y,this.getCor());
+        this.p2 = new Ponto (x,y);
     }
     
     public void setLargura (int largura)
@@ -123,10 +130,18 @@ public class Elipse extends Figura
 
     public void torneSeVisivel (Graphics g)
     {
-        g.setColor(this.cor);
+        g.setColor(this.contorno);
+        
         g.drawOval(this.p1.getX(), this.p1.getY(),   // ponto x1,y1
-                   this.largura, 
-                   this.altura);               // 
+                   this.largura,                     // largura
+                   this.altura);                     // altura
+        
+        g.setColor(this.preenchimento);
+        
+        g.fillOval(this.p1.getX(), this.p1.getY(),   // preenchendo a elipse
+                   this.largura,                     
+                   this.altura);
+      
     }
 
     public String toString()
@@ -148,6 +163,13 @@ public class Elipse extends Figura
                ":" +
                this.getCor().getGreen() +
                ":" +
-               this.getCor().getBlue();
+               this.getCor().getBlue() +
+               ":" +
+                this.getPreenchimento().getRed() +
+               ":" +
+               this.getPreenchimento().getGreen() +
+               ":" +
+               this.getPreenchimento().getBlue();
+                
     }
 }

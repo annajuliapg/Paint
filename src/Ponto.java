@@ -4,6 +4,7 @@ import java.util.*;
 public class Ponto extends Figura
 {
     protected int x, y;
+    protected Color cor = contorno; // para não usar "contorno" no ponto
 
     public Ponto (int x, int y)
     {
@@ -27,9 +28,9 @@ public class Ponto extends Figura
         this.x = Integer.parseInt(quebrador.nextToken());
         this.y = Integer.parseInt(quebrador.nextToken());
 
-        this.cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                              Integer.parseInt(quebrador.nextToken()),  // G
-                              Integer.parseInt(quebrador.nextToken())); // B
+        this.cor = new Color (Integer.parseInt(quebrador.nextToken()),   // R
+                              Integer.parseInt(quebrador.nextToken()),   // G
+                              Integer.parseInt(quebrador.nextToken()));  // B
     }
 
     // setters
@@ -70,7 +71,7 @@ public class Ponto extends Figura
                ":" +
                this.y +
                ":" +
-               this.getCor().getRed() +
+               this.getCor().getRed() + 
                ":" +
                this.getCor().getGreen() +
                ":" +

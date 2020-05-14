@@ -8,14 +8,14 @@ public class Circulo extends Figura
     
     public Circulo (int x, int y, int raio)
     {
-        this (x, y, raio, Color.BLACK);
+        this (x, y, raio, Color.BLACK, Color.WHITE);
     }
 	
-    public Circulo (int x, int y, int raio, Color cor)
+    public Circulo (int x, int y, int raio, Color contorno, Color preenchimento)
     {
-        super(cor);
-
-        this.centro = new Ponto (x,y,cor);
+        super(contorno, preenchimento);
+        
+        this.centro = new Ponto (x,y);
         this.raio = raio;
     }
 
@@ -30,19 +30,27 @@ public class Circulo extends Figura
 
         int   raio  = Integer.parseInt(quebrador.nextToken());
 
-        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),  // G
-                               Integer.parseInt(quebrador.nextToken())); // B
+        Color contorno = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                               Integer.parseInt(quebrador.nextToken()),       // G
+                               Integer.parseInt(quebrador.nextToken()));      // B
+        
+        Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                               Integer.parseInt(quebrador.nextToken()),            // G
+                               Integer.parseInt(quebrador.nextToken()));           // B
 
-        this.centro  = new Ponto (x,y,cor);
+        
+        
+        this.centro  = new Ponto (x,y);
         this.raio  = raio;
-        this.cor = cor;
+        
+        this.contorno = contorno;
+        this.preenchimento = preenchimento;
     }
 
     // setters
     public void setCentro (int x, int y)
     {
-        this.centro = new Ponto (x,y,this.getCor());
+        this.centro = new Ponto (x,y);
     }
 
     public void setRaio (int raio)
@@ -63,9 +71,17 @@ public class Circulo extends Figura
 
     public void torneSeVisivel (Graphics g)
     {
-        g.setColor(this.cor);
+        g.setColor(this.contorno);
+        
         g.drawOval(this.centro.getX() - this.raio, this.centro.getY()-this.raio,   // centro
-                   2*this.raio, 2*this.raio);               // diametro
+                   2*this.raio, 2*this.raio);                                      // diametro
+        
+        g.setColor(this.preenchimento);
+        
+        g.fillOval (this.centro.getX() - this.raio, this.centro.getY()-this.raio,   //preenchendo o círculo
+                   2*this.raio, 2*this.raio);
+
+        
     }
 
     public String toString()
@@ -81,6 +97,12 @@ public class Circulo extends Figura
                ":" +
                this.getCor().getGreen() +
                ":" +
-               this.getCor().getBlue();
+               this.getCor().getBlue() +
+               ":" +
+               this.getPreenchimento().getRed() +
+               ":" +
+               this.getPreenchimento().getGreen() +
+               ":" +
+               this.getPreenchimento().getBlue();
     }
 }
