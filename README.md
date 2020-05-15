@@ -22,7 +22,7 @@ b)Implementar o desenho de retângulo.
 
 c)Implementar o desenho de polígonos, clicando em seus vértices.
 
-d)Implementar  a  escrita  de  texto(clica-se  em  uma  área,  mostra  o  texto  conforme  o  usuário digita).
+**d)Implementar  a  escrita  de  texto (clica-se  em  uma  área,  mostra  o  texto  conforme  o  usuário digita). OK**
 
 
 Fase III 
