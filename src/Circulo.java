@@ -6,14 +6,16 @@ public class Circulo extends Figura
     protected Ponto centro;
     protected int raio;
     
+    // "cor" é a cor do contorno
+    
     public Circulo (int x, int y, int raio)
     {
         this (x, y, raio, Color.BLACK, Color.WHITE);
     }
 	
-    public Circulo (int x, int y, int raio, Color contorno, Color preenchimento)
+    public Circulo (int x, int y, int raio, Color cor, Color preenchimento)
     {
-        super(contorno, preenchimento);
+        super(cor, preenchimento);
         
         this.centro = new Ponto (x,y);
         this.raio = raio;
@@ -43,7 +45,7 @@ public class Circulo extends Figura
         this.centro  = new Ponto (x,y);
         this.raio  = raio;
         
-        this.contorno = contorno;
+        this.cor = cor;
         this.preenchimento = preenchimento;
     }
 
@@ -76,7 +78,7 @@ public class Circulo extends Figura
         g.fillOval (this.centro.getX() - this.raio, this.centro.getY()-this.raio,   //preenchendo o círculo
                    2*this.raio, 2*this.raio);
         
-        g.setColor(this.contorno);
+        g.setColor(this.cor);
         
         g.drawOval(this.centro.getX() - this.raio, this.centro.getY()-this.raio,   // centro
                    2*this.raio, 2*this.raio);                                      // diametro

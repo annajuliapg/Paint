@@ -4,7 +4,6 @@ import java.util.*;
 public class Linha extends Figura
 {
     protected Ponto p1, p2;
-    protected Color cor = contorno; // para não usar "contorno" na linha
     
     public Linha (int x1, int y1, int x2, int y2)
     {

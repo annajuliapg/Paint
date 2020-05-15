@@ -2,7 +2,7 @@ import java.awt.*;
 
 public abstract class Figura
 {
-    protected Color contorno;
+    protected Color cor;
     protected Color preenchimento = new Color (0,0,0,0);
     
 	  
@@ -11,21 +11,21 @@ public abstract class Figura
         this (Color.BLACK);
     }
 	  
-    protected Figura (Color contorno)
+    protected Figura (Color cor)
     {
-       this (contorno, Color.WHITE);
+       this (cor, Color.WHITE);
     }
     
-    protected Figura (Color contorno, Color preenchimento)
+    protected Figura (Color cor, Color preenchimento)
     {
-        this.setCor (contorno, preenchimento);
+        this.setCor (cor, preenchimento);
     }
     
     
     // setters
-    public void setCor (Color contorno, Color preenchimento)
+    public void setCor (Color cor, Color preenchimento)
     {
-        this.contorno = contorno;
+        this.cor = cor;
         this.preenchimento = preenchimento;
         
     }
@@ -33,7 +33,7 @@ public abstract class Figura
     // getters
     public Color getCor() // cor do contorno
     {
-    	return this.contorno;        
+    	return this.cor;        
     }
     
     public Color getPreenchimento()

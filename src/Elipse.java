@@ -6,14 +6,16 @@ public class Elipse extends Figura
     protected Ponto p1, p2;
     protected int largura, altura;
     
+    // "cor" é a cor do contorno
+    
     public Elipse (int x1, int y1, int x2, int y2, int largura, int altura)
     {
         this (x1, y1, x2, y2, largura, altura, Color.BLACK, Color.WHITE);
     }
 	
-    public Elipse (int x1, int y1, int x2, int y2, int largura, int altura, Color contorno, Color preenchimento)
+    public Elipse (int x1, int y1, int x2, int y2, int largura, int altura, Color cor, Color preenchimento)
     {
-        super(contorno, preenchimento);
+        super(cor, preenchimento);
         
         if(x2 < x1)
         {
@@ -82,7 +84,7 @@ public class Elipse extends Figura
         this.largura = largura;
         this.altura = altura;
         
-        this.contorno = contorno;
+        this.cor = cor;
         this.preenchimento = preenchimento;
     }
 
@@ -136,7 +138,7 @@ public class Elipse extends Figura
                    this.largura,                     
                    this.altura);
         
-        g.setColor(this.contorno);
+        g.setColor(this.cor);
         
         g.drawOval(this.p1.getX(), this.p1.getY(),   // ponto x1,y1
                    this.largura,                     // largura

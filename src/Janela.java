@@ -15,6 +15,7 @@ public class Janela extends JFrame
                       btnElipse             = new JButton ("Elipse"),
                       btnCorContorno        = new JButton ("Cor Contorno"),
                       btnCorPreenchimento   = new JButton ("Cor Preenchimento"),
+                      btnEscrever           = new JButton ("Escrever"),
                       btnAbrir              = new JButton ("Abrir"),
                       btnSalvar             = new JButton ("Salvar"),
                       btnApagar             = new JButton ("Apagar"),
@@ -25,11 +26,18 @@ public class Janela extends JFrame
     protected JLabel statusBar1 = new JLabel ("Dica:"),
                      statusBar2 = new JLabel ("Coordenada:");
 
-    protected boolean esperaPonto, esperaInicioReta, esperaFimReta, esperaCentroCirculo, esperaRaioCirculo, esperaCantoInicalElipse, esperaCantoFinalElipse;
+    protected boolean esperaPonto, 
+                      esperaInicioReta, esperaFimReta, 
+                      esperaCentroCirculo, esperaRaioCirculo, 
+                      esperaCantoInicalElipse, esperaCantoFinalElipse,
+                      esperaInicioTexto;
 
     protected Color corAtualContorno = Color.BLACK;
     protected Color corAtualPreenchimento;
     protected Ponto p1;
+    
+    private String stringTexto = null, stringFont = null;
+    private Font fonteTexto = new Font("Arial", 0, 20);
     
     protected Vector<Figura> figuras = new Vector<Figura>();
 
@@ -104,8 +112,8 @@ public class Janela extends JFrame
         
         try
         {
-            final Image btnCoresImg = ImageIO.read(getClass().getResource("resources/cores.jpg"));
-            btnCorPreenchimento.setIcon(new ImageIcon(btnCoresImg));
+            final Image btnCorPreenchimentoImg = ImageIO.read(getClass().getResource("resources/cores.jpg"));
+            btnCorPreenchimento.setIcon(new ImageIcon(btnCorPreenchimentoImg));
         }
         catch (final IOException e)
         {
@@ -115,6 +123,20 @@ public class Janela extends JFrame
                                            JOptionPane.WARNING_MESSAGE);
         }
 
+        try
+        {
+            final Image btnEscreverImg = ImageIO.read(getClass().getResource("resources/texto.jpg"));
+            btnEscrever.setIcon(new ImageIcon(btnEscreverImg));
+        }
+        catch (final IOException e)
+        {
+            JOptionPane.showMessageDialog (null,
+                                           "Arquivo cores.jpg não foi encontrado",
+                                           "Arquivo de imagem ausente",
+                                           JOptionPane.WARNING_MESSAGE);
+        }
+        
+        
         try
         {
             final Image btnAbrirImg = ImageIO.read(getClass().getResource("resources/abrir.jpg"));
@@ -171,28 +193,38 @@ public class Janela extends JFrame
         btnLinha.addActionListener (new DesenhoDeReta ());
         btnCirculo.addActionListener (new DesenhoDeCirculo ());
         btnElipse.addActionListener (new DesenhoDeElipse ());
+        
+        btnEscrever.addActionListener (new EscreverTexto ());    
+        
         btnCorContorno.addActionListener (new EscolherCorContorno ());
         btnCorPreenchimento.addActionListener (new EscolherCorPreenchimento ());
         
+        btnSair.addActionListener (new SairSalvar());
+        
         btnApagar.addActionListener (new ApagarUltimoDesenho());
         
-
-        final JPanel     pnlBotoes = new JPanel();
-        final FlowLayout flwBotoes = new FlowLayout(); 
-        pnlBotoes.setLayout (flwBotoes);
-
-        pnlBotoes.add (btnAbrir);
-        pnlBotoes.add (btnSalvar);
-        pnlBotoes.add (btnPonto);
-        pnlBotoes.add (btnLinha);
-        pnlBotoes.add (btnCirculo);
-        pnlBotoes.add (btnElipse);
-        pnlBotoes.add (btnCorContorno);
-        pnlBotoes.add (btnCorPreenchimento);
         
-        pnlBotoes.add (btnApagar);
-        pnlBotoes.add (btnSair);
+        final JPanel pnlBotoesDesenho = new JPanel();
+        final FlowLayout flwBotoesDesenho = new FlowLayout(); 
+        pnlBotoesDesenho.setLayout (flwBotoesDesenho);
 
+        pnlBotoesDesenho.add (btnAbrir);
+        pnlBotoesDesenho.add (btnSalvar);
+        
+        pnlBotoesDesenho.add (btnPonto);
+        pnlBotoesDesenho.add (btnLinha);
+        pnlBotoesDesenho.add (btnCirculo);
+        pnlBotoesDesenho.add (btnElipse);
+        
+        pnlBotoesDesenho.add (btnCorContorno);
+        pnlBotoesDesenho.add (btnCorPreenchimento);
+        
+        pnlBotoesDesenho.add (btnEscrever);
+        
+        pnlBotoesDesenho.add (btnApagar);
+        pnlBotoesDesenho.add (btnSair);
+        
+       
         final JPanel     pnlStatus = new JPanel();
         final GridLayout grdStatus = new GridLayout(1,2);
         pnlStatus.setLayout(grdStatus);
@@ -202,13 +234,14 @@ public class Janela extends JFrame
 
         final Container cntForm = this.getContentPane();
         cntForm.setLayout (new BorderLayout());
-        cntForm.add (pnlBotoes,  BorderLayout.NORTH);
+        
+        cntForm.add (pnlBotoesDesenho,  BorderLayout.NORTH);
         cntForm.add (pnlDesenho, BorderLayout.CENTER);
         cntForm.add (pnlStatus,  BorderLayout.SOUTH);
         
         this.addWindowListener (new FechamentoDeJanela());
 
-        this.setSize (1000,500);
+        this.setSize (700,500);
         this.setVisible (true);
     }
 
@@ -307,6 +340,21 @@ public class Janela extends JFrame
                                         statusBar1.setText("Dica: clique em um canto da elipse");
                                         esperaCantoInicalElipse = true;
                                     }
+                                    else
+                                        if(esperaInicioTexto)
+                                        {                                         
+                                                p1 = new Ponto (e.getX(), e.getY(), corAtualContorno);
+                                                
+                                                esperaInicioTexto = false;
+                                                
+                                                stringTexto = JOptionPane.showInputDialog("Texto:", "Digite aqui");
+                                                
+                                                figuras.add (new Texto(p1.getX(), p1.getY(), stringTexto, corAtualContorno, fonteTexto));
+                                                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                                                
+                                                esperaInicioTexto = true;                                                
+                                                
+                                        }
         }
         
         public void mouseReleased (final MouseEvent e)
@@ -335,6 +383,7 @@ public class Janela extends JFrame
           public void actionPerformed (final ActionEvent e)    
           {
               esperaPonto               = true;
+              
               esperaInicioReta          = false;
               esperaFimReta             = false;
               
@@ -343,6 +392,8 @@ public class Janela extends JFrame
               
               esperaCantoInicalElipse   = false;
               esperaCantoFinalElipse    = false;
+              
+              esperaInicioTexto         = false;
 
               statusBar1.setText("Dica: clique no local do ponto que deseja");
           }
@@ -353,6 +404,7 @@ public class Janela extends JFrame
         public void actionPerformed (final ActionEvent e)    
         {
             esperaPonto               = false;
+            
             esperaInicioReta          = true;
             esperaFimReta             = false;
             
@@ -361,6 +413,8 @@ public class Janela extends JFrame
               
             esperaCantoInicalElipse   = false;
             esperaCantoFinalElipse    = false;
+            
+            esperaInicioTexto         = false;
 
             statusBar1.setText("Dica: clique no ponto inicial da reta");
         }
@@ -371,6 +425,7 @@ public class Janela extends JFrame
         public void actionPerformed (final ActionEvent e)    
         {
             esperaPonto               = false;
+            
             esperaInicioReta          = false;
             esperaFimReta             = false;
             
@@ -379,6 +434,8 @@ public class Janela extends JFrame
               
             esperaCantoInicalElipse   = false;
             esperaCantoFinalElipse    = false;
+            
+            esperaInicioTexto         = false;
 
             statusBar1.setText("Dica: clique no centro do circulo");
         }
@@ -389,6 +446,7 @@ public class Janela extends JFrame
         public void actionPerformed (final ActionEvent e)    
         {
             esperaPonto               = false;
+            
             esperaInicioReta          = false;
             esperaFimReta             = false;
             
@@ -397,6 +455,8 @@ public class Janela extends JFrame
               
             esperaCantoInicalElipse   = true;
             esperaCantoFinalElipse    = false;
+            
+            esperaInicioTexto         = false;
             
             statusBar1.setText("Dica: clique em um canto da elipse");
         }
@@ -407,28 +467,117 @@ public class Janela extends JFrame
     {
         public void actionPerformed (final ActionEvent e)    
         {
-           figuras.remove(figuras.size()-1); // remove o ultimo salvo
+              esperaPonto               = false;
+              
+              esperaInicioReta          = false;
+              esperaFimReta             = false;
+              
+              esperaCentroCirculo       = false;
+              esperaRaioCirculo         = false;
+              
+              esperaCantoInicalElipse   = false;
+              esperaCantoFinalElipse    = false;
+              
+              esperaInicioTexto         = false;
+            
            
-           repaint(); // desenha de novo
+            statusBar1.setText("Dica:");  
+            
+            figuras.remove(figuras.size()-1); // remove o ultimo salvo
+           
+            repaint(); // desenha de novo          
+           
         }
     }
 
-    private class EscolherCorContorno implements ActionListener {
+    private class EscolherCorContorno implements ActionListener 
+    {        
         public void actionPerformed (ActionEvent e) {
+            
+              esperaPonto               = false;
+              
+              esperaInicioReta          = false;
+              esperaFimReta             = false;
+              
+              esperaCentroCirculo       = false;
+              esperaRaioCirculo         = false;
+              
+              esperaCantoInicalElipse   = false;
+              esperaCantoFinalElipse    = false;
+              
+              esperaInicioTexto         = false;
+            
+            statusBar1.setText("Dica:");
+            
             JColorChooser javacor = new JColorChooser();
+            
             Color corContorno = javacor.showDialog(btnCorContorno, "Selecione a Cor Desejada", Color.black);
+            
             corAtualContorno = corContorno;
+            
         }
     }
     
-    private class EscolherCorPreenchimento implements ActionListener {
+    private class EscolherCorPreenchimento implements ActionListener 
+    {        
         public void actionPerformed (ActionEvent e) {
+            
+              esperaPonto               = false;
+              
+              esperaInicioReta          = false;
+              esperaFimReta             = false;
+              
+              esperaCentroCirculo       = false;
+              esperaRaioCirculo         = false;
+              
+              esperaCantoInicalElipse   = false;
+              esperaCantoFinalElipse    = false;
+              
+              esperaInicioTexto         = false;
+            
+            
+            statusBar1.setText("Dica:");
+              
             JColorChooser javacor = new JColorChooser();
+            
             Color corPreenchimento = javacor.showDialog(btnCorPreenchimento, "Selecione a Cor Desejada", Color.black);
+            
             corAtualPreenchimento = corPreenchimento;
         }
     }
     
+    private class EscreverTexto extends JFrame implements ActionListener
+    {
+        public void actionPerformed (ActionEvent e)    
+        {
+            setCursor(new Cursor(Cursor.TEXT_CURSOR));
+            
+              esperaPonto               = false;
+              
+              esperaInicioReta          = false;
+              esperaFimReta             = false;
+              
+              esperaCentroCirculo       = false;
+              esperaRaioCirculo         = false;
+              
+              esperaCantoInicalElipse   = false;
+              esperaCantoFinalElipse    = false;
+              
+              esperaInicioTexto         = true;            
+            
+            statusBar1.setText("Dica: clique onde deseja escrever o texto");
+        }
+    }
+    
+    protected class SairSalvar implements ActionListener
+    {
+        public void actionPerformed (ActionEvent e)
+        {
+            //add salvar aqui
+            
+            System.exit(0);
+        }
+    }
     
     protected class FechamentoDeJanela extends WindowAdapter
     {
@@ -437,4 +586,5 @@ public class Janela extends JFrame
             System.exit(0);
         }
     }
+        
 }
