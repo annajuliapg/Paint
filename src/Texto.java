@@ -14,8 +14,7 @@ public class Texto extends Figura {
     }
        
     public Texto (int x, int y, String texto, Color cor, Font fonte) 
-    {
-        
+    {        
         super (cor);
  
         this.posição = new Ponto (x,y);

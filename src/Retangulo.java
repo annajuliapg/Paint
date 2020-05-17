@@ -1,37 +1,25 @@
 import java.awt.*;
 import java.util.*;
 
-public class Quadrado extends Figura 
+public class Retangulo extends Figura 
 {
     protected int x[] = new int[4];
     protected int y[] = new int[4];
-       
-    protected int lado;
 	
-    public Quadrado (int x1, int y1, int x2, int y2) 
+    public Retangulo (int x1, int y1, int x2, int y2) 
     {
         this (x1, y1, x2, y2, Color.BLACK, Color.WHITE);
     }
 	
-    public Quadrado (int x1, int y1, int x2, int y2, Color cor) 
+    public Retangulo (int x1, int y1, int x2, int y2, Color cor) 
     {
         this (x1, y1, x2, y2, Color.BLACK, Color.WHITE);
     }
     
-    public Quadrado (int x1, int y1, int x2, int y2, Color cor, Color preenchimento) 
+    public Retangulo (int x1, int y1, int x2, int y2, Color cor, Color preenchimento) 
     {
         super(cor, preenchimento);
         
-        if(Math.abs(x2 - x1) < Math.abs(y2 - y1))
-        {
-           this.lado = (int)Math.abs(x2 - x1);
-        }            
-        else
-        {
-           this.lado = (int)Math.abs(y2 - y1);
-        }
-                       
-
         if(x2 < x1)
         {
             if(y2 < y1) // x e y menores
@@ -39,12 +27,12 @@ public class Quadrado extends Figura
                 // troca os dois
                 
                 x[0] = x1;
-                y[0] = y1 - lado;
+                y[0] = y2;
 
-                x[1] = x1 - lado;
-                y[1] = y1 - lado;
+                x[1] = x2;
+                y[1] = y2;
 
-                x[2] = x1 - lado;
+                x[2] = x2;
                 y[2] = y1;
 
                 x[3] = x1;
@@ -58,14 +46,14 @@ public class Quadrado extends Figura
                 x[0] = x1;
                 y[0] = y1;
 
-                x[1] = x1 - lado;
+                x[1] = x2;
                 y[1] = y1; 
 
-                x[2] = x1 - lado;
-                y[2] = y1 + lado;
+                x[2] = x2;
+                y[2] = y2;
 
                 x[3] = x1; 
-                y[3] = y1 + lado; 
+                y[3] = y2; 
             }                
         }
         else
@@ -73,37 +61,38 @@ public class Quadrado extends Figura
             {
                 // troca o y
                 
-                x[0] = x1 + lado;
-                y[0] = y1 - lado;
+                x[0] = x2;
+                y[0] = y2;
 
                 x[1] = x1;
-                y[1] = y1 -  lado;
+                y[1] = y2;
 
                 x[2] = x1;
                 y[2] = y1;
 
-                x[3] = x1 + lado;
+                x[3] = x2;
                 y[3] = y1;
             }
             else // nenhum menor
             {
                 // mantém normal
                 
-                x[0] = x1 + lado;
+                x[0] = x2;
                 y[0] = y1;
 
                 x[1] = x1;
                 y[1] = y1;
 
                 x[2] = x1;
-                y[2] = y1 + lado;
+                y[2] = y2;
 
-                x[3] = x1 + lado;
-                y[3] = y1 + lado;
-            }        
+                x[3] = x2;
+                y[3] = y2;
+            }
+        
     }
 
-    public Quadrado (String s) 
+    public Retangulo (String s) 
     {
         StringTokenizer quebrador = new StringTokenizer(s,":");
 
@@ -120,8 +109,6 @@ public class Quadrado extends Figura
         y[2]   = Integer.parseInt(quebrador.nextToken());
         x[3]   = Integer.parseInt(quebrador.nextToken());
         y[3]   = Integer.parseInt(quebrador.nextToken());
-
-        int   lado   = Integer.parseInt(quebrador.nextToken());
 
         Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                Integer.parseInt(quebrador.nextToken()),  // G
@@ -144,11 +131,6 @@ public class Quadrado extends Figura
         this.y[0] = y;
     }
     
-    public void setLado (int lado)
-    {
-        this.lado = lado;
-    }
-    
     public int getXP0 ()
     {
         return this.x[0];
@@ -157,18 +139,13 @@ public class Quadrado extends Figura
     public int getYP0 ()
     {
         return this.y[0];
-    }
-    
-    public int getLado ()
-    {
-        return this.lado;
     }        
 
     public void torneSeVisivel (Graphics g) 
     {
         g.setColor (this.preenchimento);
-        
-        g.fillPolygon (x, y, 4); //preenchendo o quadrado
+        //preenchendo
+        g.fillPolygon (x, y, 4);
         
         g.setColor (this.cor);
         
@@ -192,9 +169,7 @@ public class Quadrado extends Figura
                this.x[3] +
                ":" +
                this.y[3] +
-               ":" +
-               this.lado +
-               ":" +
+               ":" +               
                this.getCor().getRed() +
                ":" +
                this.getCor().getGreen() +

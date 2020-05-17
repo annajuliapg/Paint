@@ -14,7 +14,8 @@ public class Janela extends JFrame
                       btnCirculo            = new JButton ("Circulo"),
                       btnElipse             = new JButton ("Elipse"),
                       btnQuadrado           = new JButton ("Quadrado"),
-                      btnCorContorno        = new JButton ("Cor Contorno"),
+                      btnRetangulo           = new JButton ("Retangulo"),
+                      btnCor                = new JButton ("Cor"),
                       btnCorPreenchimento   = new JButton ("Cor Preenchimento"),
                       btnEscrever           = new JButton ("Escrever"),
                       btnAbrir              = new JButton ("Abrir"),
@@ -24,27 +25,33 @@ public class Janela extends JFrame
 
     protected MeuJPanel pnlDesenho = new MeuJPanel ();
     
-    protected JLabel statusBar1 = new JLabel ("Dica:"),
+    protected JLabel statusBar1 = new JLabel ("Dica: clique no botão do que deseja desenhar"),
                      statusBar2 = new JLabel ("Coordenada:");
 
-    protected boolean esperaPonto, 
-                      esperaInicioReta, esperaFimReta, 
+    protected boolean primeiroMovimento,
+                      esperaPonto, 
+                      esperaInicioReta, esperaFimReta,desenhaReta, 
                       esperaCentroCirculo, esperaRaioCirculo, 
                       esperaCantoInicalElipse, esperaCantoFinalElipse,
                       esperaInicioQuadrado, esperaFimQuadrado,
+                      esperaInicioRetangulo, esperaFimRetangulo,
                       esperaInicioTexto;
 
-    protected Color corAtualContorno = Color.BLACK;
+    protected Color corAtual = Color.BLACK;
     protected Color corAtualPreenchimento;
     protected Ponto p1;
     
-    int x[] = new int[99];
-    int y[] = new int[99];
+    protected int x[] = new int[99];
+    protected int y[] = new int[99];
     
-    private String stringTexto = null, stringFont = null;
-    private Font fonteTexto = new Font("Arial", 0, 20);
+    protected Linha l;
+    
+    protected String stringTexto = null;
+    protected Font fonteTexto = new Font("Arial", 0, 20);
     
     protected Vector<Figura> figuras = new Vector<Figura>();
+    
+    protected Vector<Figura> aux = new Vector<Figura>();
 
     public Janela ()
     {
@@ -114,22 +121,25 @@ public class Janela extends JFrame
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
-
+        
         try
         {
-            final Image btnCoresImg = ImageIO.read(getClass().getResource("resources/cores.jpg"));
-            btnCorContorno.setIcon(new ImageIcon(btnCoresImg));
+            final Image btnRetanguloImg = ImageIO.read(getClass().getResource("resources/retangulo.jpg"));
+            btnRetangulo.setIcon(new ImageIcon(btnRetanguloImg));
         }
         catch (final IOException e)
         {
             JOptionPane.showMessageDialog (null,
-                                           "Arquivo cores.jpg não foi encontrado",
+                                           "Arquivo retangulo.jpg não foi encontrado",
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
-        
+
         try
         {
+            final Image btnCoresImg = ImageIO.read(getClass().getResource("resources/cores.jpg"));
+            btnCor.setIcon(new ImageIcon(btnCoresImg));
+            
             final Image btnCorPreenchimentoImg = ImageIO.read(getClass().getResource("resources/cores.jpg"));
             btnCorPreenchimento.setIcon(new ImageIcon(btnCorPreenchimentoImg));
         }
@@ -140,7 +150,7 @@ public class Janela extends JFrame
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
-
+        
         try
         {
             final Image btnEscreverImg = ImageIO.read(getClass().getResource("resources/texto.jpg"));
@@ -153,8 +163,7 @@ public class Janela extends JFrame
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
-        
-        
+                
         try
         {
             final Image btnAbrirImg = ImageIO.read(getClass().getResource("resources/abrir.jpg"));
@@ -212,10 +221,11 @@ public class Janela extends JFrame
         btnCirculo.addActionListener (new DesenhoDeCirculo ());
         btnElipse.addActionListener (new DesenhoDeElipse ());
         btnQuadrado.addActionListener (new DesenhoDeQuadrado ());
+        btnRetangulo.addActionListener (new DesenhoDeRetangulo ());
         
         btnEscrever.addActionListener (new EscreverTexto ());    
         
-        btnCorContorno.addActionListener (new EscolherCorContorno ());
+        btnCor.addActionListener (new EscolherCor ());
         btnCorPreenchimento.addActionListener (new EscolherCorPreenchimento ());
         
         btnSair.addActionListener (new SairSalvar());
@@ -235,9 +245,10 @@ public class Janela extends JFrame
         pnlBotoesDesenho.add (btnCirculo);
         pnlBotoesDesenho.add (btnElipse);
         pnlBotoesDesenho.add (btnQuadrado);
+        pnlBotoesDesenho.add (btnRetangulo);
         
         
-        pnlBotoesDesenho.add (btnCorContorno);
+        pnlBotoesDesenho.add (btnCor);
         pnlBotoesDesenho.add (btnCorPreenchimento);
         
         pnlBotoesDesenho.add (btnEscrever);
@@ -288,46 +299,12 @@ public class Janela extends JFrame
         }
         
         public void mousePressed (final MouseEvent e)
-        {
-            if (esperaPonto)
-            {
-                figuras.add (new Ponto (e.getX(), e.getY(), corAtualContorno));
-                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                              
-                statusBar1.setText("Dica: clique no local do ponto que deseja");
-                
-                esperaPonto = true;
-                
-            }
-            else
-                if (esperaInicioReta)
-                {
-                    esperaInicioReta = false;
-                    
-                    p1 = new Ponto (e.getX(), e.getY(), corAtualContorno);                                  
-                    
-                    statusBar1.setText("Dica: clique no ponto final da reta");
-                    
-                    esperaFimReta = true;
-                 }
-                 else
-                    if (esperaFimReta)
-                    {
-                        esperaFimReta = false;
-                        
-                        figuras.add (new Linha(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtualContorno));
-                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                        
-                        statusBar1.setText("Dica: clique no ponto inicial da reta");
-                        
-                        esperaInicioReta = true;    
-                    }
-                    else
-				if (esperaCentroCirculo)
+        {           
+            if (esperaCentroCirculo)
 				{                                    
                                     esperaCentroCirculo = false;
                                     
-                                    p1 = new Ponto (e.getX(), e.getY(), corAtualContorno);
+                                    p1 = new Ponto (e.getX(), e.getY(), corAtual);
                                     
                                     statusBar1.setText("Dica: clique em um ponto do circulo");
                                     
@@ -341,7 +318,7 @@ public class Janela extends JFrame
                                     final int raio = (int)(Math.round ( Math.sqrt (
                                     Math.pow (e.getY() - p1.getY(),2) + Math.pow (e.getX() - p1.getX(),2))));
                                     
-                                    figuras.add (new Circulo(p1.getX(), p1.getY(), raio, corAtualContorno, corAtualPreenchimento));
+                                    figuras.add (new Circulo(p1.getX(), p1.getY(), raio, corAtual, corAtualPreenchimento));
                                     figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                                     
                                     statusBar1.setText("Dica: clique no centro do circulo");
@@ -353,7 +330,7 @@ public class Janela extends JFrame
                                     {
                                         esperaCantoInicalElipse = false;
                                         
-                                        p1 = new Ponto (e.getX(), e.getY(), corAtualContorno);
+                                        p1 = new Ponto (e.getX(), e.getY(), corAtual);
                                                                                                                         
                                         statusBar1.setText("Dica: clique no outro canto da elipse");
                                         
@@ -369,7 +346,7 @@ public class Janela extends JFrame
                                         final int altura = Math.abs ((int)(e.getY() - p1.getY()));  // modulo
                                         
                                                                              
-                                        figuras.add (new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtualContorno, corAtualPreenchimento));
+                                        figuras.add (new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtual, corAtualPreenchimento));
                                         figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                                         
                                         statusBar1.setText("Dica: clique em um canto da elipse");
@@ -381,12 +358,11 @@ public class Janela extends JFrame
                                         {                                               
                                             esperaInicioQuadrado = false;
                                             
-                                            p1 = new Ponto (e.getX(), e.getY(), corAtualContorno);
+                                            p1 = new Ponto (e.getX(), e.getY(), corAtual);
                                             
                                             statusBar1.setText("Dica: clique em outro ponto do quadrado");
                                             
-                                            esperaFimQuadrado = true;
-                                                                                   
+                                            esperaFimQuadrado = true;                                                                                   
                                                                                                                               
                                         }
                                         else
@@ -394,35 +370,100 @@ public class Janela extends JFrame
                                             {
                                                esperaFimQuadrado = false;
                                                 
-                                               figuras.add (new Quadrado(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtualContorno, corAtualPreenchimento));
+                                               figuras.add (new Quadrado(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento));
                                                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
 
                                                statusBar1.setText("Dica: clique em ponto do quadrado");
                                             
                                                esperaInicioQuadrado = true; 
                                             }
+                                            else
+                                                if(esperaInicioRetangulo)
+                                                {
+                                                   esperaInicioRetangulo = false;
+                                            
+                                                   p1 = new Ponto (e.getX(), e.getY(), corAtual);
+
+                                                   statusBar1.setText("Dica: clique em outro ponto do retangulo");
+
+                                                   esperaFimRetangulo = true;
+                                                }
+                                                else
+                                                    if(esperaFimRetangulo)
+                                                    {
+                                                        esperaFimRetangulo = false;
+                                                
+                                                        figuras.add (new Retangulo(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento));
+                                                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+
+                                                        statusBar1.setText("Dica: clique em ponto do retangulo");
+
+                                                        esperaInicioRetangulo = true;
+                                                    }
                                     
                                     else
                                         if(esperaInicioTexto)
                                         {                                         
-                                                p1 = new Ponto (e.getX(), e.getY(), corAtualContorno);
+                                                p1 = new Ponto (e.getX(), e.getY(), corAtual);
                                                 
                                                 esperaInicioTexto = false;
                                                 
-                                                stringTexto = JOptionPane.showInputDialog("Texto:", "Digite aqui");
+                                                stringTexto = JOptionPane.showInputDialog(null, "Texto:", "Escrever", JOptionPane.PLAIN_MESSAGE);
                                                 
-                                                figuras.add (new Texto(p1.getX(), p1.getY(), stringTexto, corAtualContorno, fonteTexto));
+                                                figuras.add (new Texto(p1.getX(), p1.getY(), stringTexto, corAtual, fonteTexto));
                                                 figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
                                                 
                                                 esperaInicioTexto = true;                                                
                                                 
-                                        }
+                                        } 
+        
+        }
+        
+        public void mouseClicked (final MouseEvent e)
+        {
+            if (esperaPonto)
+            {
+                figuras.add (new Ponto (e.getX(), e.getY(), corAtual));
+                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                              
+                statusBar1.setText("Dica: clique no local do ponto que deseja");
+                
+                esperaPonto = true;
+                
+            }
+            else
+                if (esperaInicioReta)
+                {
+                    esperaInicioReta = false;
+                    
+                    p1 = new Ponto (e.getX(), e.getY(), corAtual);                                  
+                    
+                    statusBar1.setText("Dica: clique no ponto final da reta");
+                    
+                    primeiroMovimento = true;
+                    
+                    desenhaReta = true;
+                    
+                    esperaFimReta = true;
+                 }
+                else
+                    if (esperaFimReta)
+                    {
+                        desenhaReta = false;
+                        
+                        esperaFimReta = false;
+                        
+                        figuras.add (new Linha(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual));
+                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                        
+                        statusBar1.setText("Dica: clique no ponto inicial da reta");
+                        
+                        esperaInicioReta = true;
+                    }
+				
         }
         
         public void mouseReleased (final MouseEvent e)
-        {}
-        
-        public void mouseClicked (final MouseEvent e)
         {}
         
         public void mouseEntered (final MouseEvent e)
@@ -436,6 +477,21 @@ public class Janela extends JFrame
 
         public void mouseMoved(final MouseEvent e)
         {
+            if (desenhaReta)
+            {              
+		if (!primeiroMovimento)
+                    RedesenhaTela();
+                
+		l = new Linha(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual);
+                
+                l.torneSeVisivel(pnlDesenho.getGraphics()); 
+                
+                                
+		primeiroMovimento = false;
+                                                
+                statusBar1.setText("Dica: solte o mouse no ponto final da reta");
+            }
+            
             statusBar2.setText("Coordenada: "+e.getX()+","+e.getY());
         }
     }
@@ -454,6 +510,12 @@ public class Janela extends JFrame
               
               esperaCantoInicalElipse   = false;
               esperaCantoFinalElipse    = false;
+              
+              esperaInicioQuadrado      = false;
+              esperaFimQuadrado         = false;
+            
+              esperaInicioRetangulo     = false;
+              esperaFimRetangulo        = false;
               
               esperaInicioTexto         = false;
 
@@ -476,6 +538,12 @@ public class Janela extends JFrame
             esperaCantoInicalElipse   = false;
             esperaCantoFinalElipse    = false;
             
+            esperaInicioQuadrado      = false;
+            esperaFimQuadrado         = false;
+            
+            esperaInicioRetangulo     = false;
+            esperaFimRetangulo        = false;
+            
             esperaInicioTexto         = false;
 
             statusBar1.setText("Dica: clique no ponto inicial da reta");
@@ -497,6 +565,12 @@ public class Janela extends JFrame
             esperaCantoInicalElipse   = false;
             esperaCantoFinalElipse    = false;
             
+            esperaInicioQuadrado      = false;
+            esperaFimQuadrado         = false;
+            
+            esperaInicioRetangulo     = false;
+            esperaFimRetangulo        = false;
+            
             esperaInicioTexto         = false;
 
             statusBar1.setText("Dica: clique no centro do circulo");
@@ -517,6 +591,12 @@ public class Janela extends JFrame
               
             esperaCantoInicalElipse   = true;
             esperaCantoFinalElipse    = false;
+            
+            esperaInicioQuadrado      = false;
+            esperaFimQuadrado         = false;
+            
+            esperaInicioRetangulo     = false;
+            esperaFimRetangulo        = false;
             
             esperaInicioTexto         = false;
             
@@ -542,9 +622,39 @@ public class Janela extends JFrame
             esperaInicioQuadrado      = true;
             esperaFimQuadrado         = false;
             
+            esperaInicioRetangulo     = false;
+            esperaFimRetangulo        = false;
+            
             esperaInicioTexto         = false;
                         
             statusBar1.setText("Dica: clique em ponto do quadrado");
+        }
+    }
+    
+    protected class DesenhoDeRetangulo implements ActionListener
+    {
+        public void actionPerformed (final ActionEvent e)    
+        {
+            esperaPonto               = false;
+            
+            esperaInicioReta          = false;
+            esperaFimReta             = false;
+            
+            esperaCentroCirculo       = false;
+            esperaRaioCirculo         = false;
+              
+            esperaCantoInicalElipse   = false;
+            esperaCantoFinalElipse    = false;
+            
+            esperaInicioQuadrado      = false;
+            esperaFimQuadrado         = false;
+            
+            esperaInicioRetangulo     = true;
+            esperaFimRetangulo        = false;
+            
+            esperaInicioTexto         = false;
+                        
+            statusBar1.setText("Dica: clique em ponto do retangulo");
         }
     }
     
@@ -553,6 +663,8 @@ public class Janela extends JFrame
     {
         public void actionPerformed (final ActionEvent e)    
         {
+            try
+            {
               esperaPonto               = false;
               
               esperaInicioReta          = false;
@@ -570,16 +682,25 @@ public class Janela extends JFrame
               esperaInicioTexto         = false;
             
            
-            statusBar1.setText("Dica:");  
+              statusBar1.setText("Dica:");  
             
-            figuras.remove(figuras.size()-1); // remove o ultimo salvo
+              figuras.remove(figuras.size()-1); // remove o ultimo salvo
            
-            repaint(); // desenha de novo          
+              repaint(); // desenha de novo
+            }
+            catch (ArrayIndexOutOfBoundsException erro)
+            {
+                JOptionPane.showMessageDialog (null,
+                                               "Não há nada para apagar!",
+                                               "Tela Limpa",
+                                               JOptionPane.WARNING_MESSAGE);
+            }
+                       
            
         }
     }
 
-    private class EscolherCorContorno implements ActionListener 
+    private class EscolherCor implements ActionListener 
     {        
         public void actionPerformed (ActionEvent e) {
             
@@ -603,9 +724,11 @@ public class Janela extends JFrame
             
             JColorChooser javacor = new JColorChooser();
             
-            Color corContorno = javacor.showDialog(btnCorContorno, "Selecione a Cor Desejada", Color.black);
+            Color corContorno = javacor.showDialog(btnCor, "Selecione a Cor Desejada", Color.black);
             
-            corAtualContorno = corContorno;
+            corAtual = corContorno;
+            
+            statusBar1.setText("Dica: clique no botão do que deseja desenhar");
             
         }
     }
@@ -638,6 +761,8 @@ public class Janela extends JFrame
             Color corPreenchimento = javacor.showDialog(btnCorPreenchimento, "Selecione a Cor Desejada", Color.black);
             
             corAtualPreenchimento = corPreenchimento;
+            
+            statusBar1.setText("Dica: clique no botão do que deseja desenhar");
         }
     }
     
@@ -665,6 +790,13 @@ public class Janela extends JFrame
             
             statusBar1.setText("Dica: clique onde deseja escrever o texto");
         }
+    }
+    
+    private void RedesenhaTela()
+    {
+        
+        pnlDesenho.setSize(pnlDesenho.getHeight()+1, pnlDesenho.getWidth()+1);
+        pnlDesenho.setSize(pnlDesenho.getHeight()-1, pnlDesenho.getWidth()-1);
     }
     
     protected class SairSalvar implements ActionListener
