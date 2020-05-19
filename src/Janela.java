@@ -37,7 +37,7 @@ public class Janela extends JFrame
     protected boolean esperaPonto, 
                       esperaInicioReta, esperaFimReta, 
                       esperaCentroCirculo, esperaRaioCirculo, 
-                      esperaCantoInicalElipse, esperaCantoFinalElipse,
+                      esperaInicioElipse, esperaFimElipse,
                       esperaInicioQuadrado, esperaFimQuadrado,
                       esperaInicioRetangulo, esperaFimRetangulo,
                       esperaInicioPoligono, esperaFimPoligono,// desenhaPoligono,
@@ -374,8 +374,6 @@ public class Janela extends JFrame
 
                         p1 = new Ponto (e.getX(), e.getY(), corAtual);
 
-                        statusBar1.setText("Dica: clique no ponto final da reta");
-
                         esperaFimReta = true;
                     }
                     catch (Exception x)
@@ -392,8 +390,6 @@ public class Janela extends JFrame
 
                             p1 = new Ponto (e.getX(), e.getY(), corAtual);
 
-                            statusBar1.setText("Dica: clique em um ponto do circulo");
-
                             esperaRaioCirculo = true;
                         }
                         catch (Exception x)
@@ -402,35 +398,16 @@ public class Janela extends JFrame
                         }
                     }			
                     else
-		
-                                    if(esperaCantoInicalElipse)
-                                    {
-                                        esperaCantoInicalElipse = false;
+                        if(esperaInicioElipse)
+                        {
+                            esperaInicioElipse = false;
                                         
-                                        p1 = new Ponto (e.getX(), e.getY(), corAtual);
-                                                                                                                        
-                                        statusBar1.setText("Dica: clique no outro canto da elipse");
+                            p1 = new Ponto (e.getX(), e.getY(), corAtual);
                                         
-                                        esperaCantoFinalElipse = true;                                        
+                            esperaFimElipse = true;                                        
                                         
-                                    }
-                                    else
-                                    if(esperaCantoFinalElipse)
-                                    {
-                                        esperaCantoFinalElipse = false;
-                                                                                
-                                        final int largura = Math.abs ((int)(e.getX() - p1.getX())); // modulo
-                                        final int altura = Math.abs ((int)(e.getY() - p1.getY()));  // modulo
-                                        
-                                                                             
-                                        figuras.add (new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtual, corAtualPreenchimento));
-                                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                                        
-                                        statusBar1.setText("Dica: clique em um canto da elipse");
-                                        
-                                        esperaCantoInicalElipse = true;
-                                    }
-                                    else
+                        }
+                        else
                                         if(esperaInicioQuadrado)
                                         {                                               
                                             esperaInicioQuadrado = false;
@@ -506,7 +483,7 @@ public class Janela extends JFrame
                     figuras.add (new Linha(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual));
                     figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
 
-                    statusBar1.setText("Dica: clique no ponto inicial da reta");
+                    statusBar1.setText("Dica: clique no ponto inicial da reta e arraste o mouse");
                     
                     temp = null;
                     esperaInicioReta = true;
@@ -529,7 +506,7 @@ public class Janela extends JFrame
                         figuras.add (new Circulo(p1.getX(), p1.getY(), raio, corAtual, corAtualPreenchimento));
                         figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
 
-                        statusBar1.setText("Dica: clique no centro do circulo");
+                        statusBar1.setText("Dica: clique no centro do circulo e arraste o mouse");
 
                         temp = null;
                         esperaCentroCirculo = true;
@@ -538,7 +515,22 @@ public class Janela extends JFrame
                     {
                         statusBar1.setText(x.getMessage());
                     }
-		}           
+		}
+                else
+                    if(esperaFimElipse)
+                    {
+                        esperaFimElipse = false;
+                                                                                
+                        final int largura = Math.abs ((int)(e.getX() - p1.getX())); // modulo
+                        final int altura = Math.abs ((int)(e.getY() - p1.getY()));  // modulo
+                                                                            
+                        figuras.add (new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtual, corAtualPreenchimento));
+                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                                        
+                        statusBar1.setText("Dica: clique em um canto da elipse e arraste o mouse");
+                                    
+                        esperaInicioElipse = true;
+                    }
                     
         }
         
@@ -577,7 +569,19 @@ public class Janela extends JFrame
                     {
                         statusBar1.setText(x.getMessage());
                     }
-                }                
+                }
+                else
+                    if(esperaFimElipse)
+                    {
+                        int largura = Math.abs ((int)(e.getX() - p1.getX())); // modulo
+                        int altura = Math.abs ((int)(e.getY() - p1.getY()));  // modulo
+                                        
+                        temp = new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtual, corAtualPreenchimento);
+
+                        repaint (); 
+                                                                
+                        statusBar1.setText("Dica: solte o mouse no canto final da elipse");
+                    }
         }
         
         public void mouseClicked (final MouseEvent e)
@@ -631,6 +635,11 @@ public class Janela extends JFrame
                                                            "Número de Vértices Excedido",
                                                            JOptionPane.WARNING_MESSAGE);
                         FinalizaPol();
+                        esperaInicioPoligono = true;
+                
+                        statusFinalizaPol.setVisible(true);
+                        btnFinalizaPoligono.setVisible(true);
+                        statusVertices.setVisible(true);                        
                     }
                 }              
         }
@@ -646,13 +655,13 @@ public class Janela extends JFrame
             statusBar2.setText("Coordenada: "+e.getX()+","+e.getY());
         }
     }
-
+    
     protected class DesenhoDePonto implements ActionListener
     {
           public void actionPerformed (final ActionEvent e)    
           {
-              if(esperaFimPoligono)
-                FinalizaPol();
+              if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol();
               
               esperaPonto               = true;
               
@@ -662,8 +671,8 @@ public class Janela extends JFrame
               esperaCentroCirculo       = false;
               esperaRaioCirculo         = false;
               
-              esperaCantoInicalElipse   = false;
-              esperaCantoFinalElipse    = false;
+              esperaInicioElipse        = false;
+              esperaFimElipse           = false;
               
               esperaInicioQuadrado      = false;
               esperaFimQuadrado         = false;
@@ -684,8 +693,8 @@ public class Janela extends JFrame
     {
         public void actionPerformed (final ActionEvent e)    
         {
-            if(esperaFimPoligono)
-                FinalizaPol();
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol(); 
             
             esperaPonto               = false;
             
@@ -695,8 +704,8 @@ public class Janela extends JFrame
             esperaCentroCirculo       = false;
             esperaRaioCirculo         = false;
               
-            esperaCantoInicalElipse   = false;
-            esperaCantoFinalElipse    = false;
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
             
             esperaInicioQuadrado      = false;
             esperaFimQuadrado         = false;
@@ -709,7 +718,7 @@ public class Janela extends JFrame
             
             esperaInicioTexto         = false;
 
-            statusBar1.setText("Dica: clique no ponto inicial da reta");
+            statusBar1.setText("Dica: clique no ponto inicial da reta e arraste o mouse");
         }
     }
 
@@ -717,8 +726,8 @@ public class Janela extends JFrame
     {
         public void actionPerformed (final ActionEvent e)    
         {
-            if(esperaFimPoligono)
-                FinalizaPol();
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol(); 
             
             esperaPonto               = false;
             
@@ -728,8 +737,8 @@ public class Janela extends JFrame
             esperaCentroCirculo       = true;
             esperaRaioCirculo         = false;
               
-            esperaCantoInicalElipse   = false;
-            esperaCantoFinalElipse    = false;
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
             
             esperaInicioQuadrado      = false;
             esperaFimQuadrado         = false;
@@ -742,7 +751,7 @@ public class Janela extends JFrame
             
             esperaInicioTexto         = false;
 
-            statusBar1.setText("Dica: clique no centro do circulo");
+            statusBar1.setText("Dica: clique no centro do circulo e arraste o mouse");
         }
     }
         
@@ -750,8 +759,8 @@ public class Janela extends JFrame
     {
         public void actionPerformed (final ActionEvent e)    
         {
-            if(esperaFimPoligono)
-                FinalizaPol();
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol(); 
             
             esperaPonto               = false;
             
@@ -761,8 +770,8 @@ public class Janela extends JFrame
             esperaCentroCirculo       = false;
             esperaRaioCirculo         = false;
               
-            esperaCantoInicalElipse   = true;
-            esperaCantoFinalElipse    = false;
+            esperaInicioElipse        = true;
+            esperaFimElipse           = false;
             
             esperaInicioQuadrado      = false;
             esperaFimQuadrado         = false;
@@ -775,7 +784,7 @@ public class Janela extends JFrame
             
             esperaInicioTexto         = false;
             
-            statusBar1.setText("Dica: clique em um canto da elipse");
+            statusBar1.setText("Dica: clique em um canto da elipse e arraste o mouse");
         }
     }
                 
@@ -783,8 +792,8 @@ public class Janela extends JFrame
     {
         public void actionPerformed (final ActionEvent e)    
         {
-            if(esperaFimPoligono)
-                FinalizaPol();
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol(); 
             
             esperaPonto               = false;
             
@@ -794,8 +803,8 @@ public class Janela extends JFrame
             esperaCentroCirculo       = false;
             esperaRaioCirculo         = false;
               
-            esperaCantoInicalElipse   = false;
-            esperaCantoFinalElipse    = false;
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
             
             esperaInicioQuadrado      = true;
             esperaFimQuadrado         = false;
@@ -816,8 +825,8 @@ public class Janela extends JFrame
     {
         public void actionPerformed (final ActionEvent e)    
         {
-            if(esperaFimPoligono)
-                FinalizaPol();
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol(); 
             
             esperaPonto               = false;
             
@@ -827,8 +836,8 @@ public class Janela extends JFrame
             esperaCentroCirculo       = false;
             esperaRaioCirculo         = false;
               
-            esperaCantoInicalElipse   = false;
-            esperaCantoFinalElipse    = false;
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
             
             esperaInicioQuadrado      = false;
             esperaFimQuadrado         = false;
@@ -848,13 +857,13 @@ public class Janela extends JFrame
     protected class DesenhoDePoligono implements ActionListener
     {
         public void actionPerformed (final ActionEvent e)    
-        {            
+        {   
             statusFinalizaPol.setVisible(true);
             btnFinalizaPoligono.setVisible(true);
             statusVertices.setVisible(true);
             
-            if(esperaFimPoligono)
-                FinalizaPol();
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol();
             
             esperaPonto               = false;
 
@@ -864,8 +873,8 @@ public class Janela extends JFrame
             esperaCentroCirculo       = false;
             esperaRaioCirculo         = false;
 
-            esperaCantoInicalElipse   = false;
-            esperaCantoFinalElipse    = false;
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
 
             esperaInicioQuadrado      = false;
             esperaFimQuadrado         = false;
@@ -899,10 +908,22 @@ public class Janela extends JFrame
             }
             else
             {  
-                JOptionPane.showMessageDialog (null,
-                                               "Começe a desenhar um poligono antes de finalizar",
-                                               "Nenhum poligono está sendo desenhado",
-                                               JOptionPane.WARNING_MESSAGE);
+                if(esperaInicioPoligono)
+                {
+                    
+                    FinalizaPol();
+                
+                    esperaInicioPoligono = true;
+
+                    statusFinalizaPol.setVisible(true);
+                    btnFinalizaPoligono.setVisible(true);
+                    statusVertices.setVisible(true);
+                    
+                    JOptionPane.showMessageDialog (null,
+                                                   "Começe a desenhar um poligono antes de finalizar",
+                                                   "Nenhum poligono está sendo desenhado",
+                                                   JOptionPane.WARNING_MESSAGE);
+                }
             }
         }
     }
@@ -910,53 +931,54 @@ public class Janela extends JFrame
     private void FinalizaPol () // para usar sem o clique
     {
         try
-        {
-            esperaPonto               = false;
-            
-            esperaInicioReta          = false;
-            esperaFimReta             = false;
-            
-            esperaCentroCirculo       = false;
-            esperaRaioCirculo         = false;
-              
-            esperaCantoInicalElipse   = false;
-            esperaCantoFinalElipse    = false;
-            
-            esperaInicioQuadrado      = false;
-            esperaFimQuadrado         = false;
-            
-            esperaInicioRetangulo     = false;
-            esperaFimRetangulo        = false;
-            
-            esperaInicioPoligono      = false;
-            esperaFimPoligono         = false;            
-            
-            esperaInicioTexto         = false;
-            
-            figuras.add (new Poligono(x, y, numVertices, corAtual, corAtualPreenchimento));
-            figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+            {
+                esperaPonto               = false;
 
-            statusBar1.setText("Dica: clique no vertice inical do poligono");
-            statusVertices.setText("  Número de Vértices: 0");
+                esperaInicioReta          = false;
+                esperaFimReta             = false;
 
-            temp = null;
-            
-            statusFinalizaPol.setVisible(false);
-            btnFinalizaPoligono.setVisible(false);
-            statusVertices.setVisible(false); 
-        }
-        catch (Exception x)
-        {
-            statusBar1.setText(x.getMessage());
-        }   
+                esperaCentroCirculo       = false;
+                esperaRaioCirculo         = false;
+
+                esperaInicioElipse        = false;
+                esperaFimElipse           = false;
+
+                esperaInicioQuadrado      = false;
+                esperaFimQuadrado         = false;
+
+                esperaInicioRetangulo     = false;
+                esperaFimRetangulo        = false;
+
+                esperaInicioPoligono      = false;
+                esperaFimPoligono         = false;            
+
+                esperaInicioTexto         = false;
+
+                figuras.add (new Poligono(x, y, numVertices, corAtual, corAtualPreenchimento));
+                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+
+                statusBar1.setText("Dica: clique no vertice inical do poligono");
+                statusVertices.setText("  Número de Vértices: 0");
+
+                temp = null;
+
+                statusFinalizaPol.setVisible(false);
+                btnFinalizaPoligono.setVisible(false);
+                statusVertices.setVisible(false); 
+            }
+            catch (Exception x)
+            {
+                statusBar1.setText(x.getMessage());
+            }
+        
     }
     
     private class EscolherCor implements ActionListener 
     {        
         public void actionPerformed (ActionEvent e) 
         {
-            if(esperaFimPoligono)
-                FinalizaPol();
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol(); 
             
             esperaPonto               = false;
               
@@ -966,8 +988,8 @@ public class Janela extends JFrame
             esperaCentroCirculo       = false;
             esperaRaioCirculo         = false;
               
-            esperaCantoInicalElipse   = false;
-            esperaCantoFinalElipse    = false;
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
               
             esperaInicioQuadrado      = false;
             esperaFimQuadrado         = false;
@@ -997,7 +1019,7 @@ public class Janela extends JFrame
     {        
         public void actionPerformed (ActionEvent e) 
         {
-            if(esperaFimPoligono)
+            if((esperaFimPoligono)||(esperaInicioPoligono))
                FinalizaPol(); 
             
             esperaPonto               = false;
@@ -1008,8 +1030,8 @@ public class Janela extends JFrame
             esperaCentroCirculo       = false;
             esperaRaioCirculo         = false;
               
-            esperaCantoInicalElipse   = false;
-            esperaCantoFinalElipse    = false;
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
               
             esperaInicioQuadrado      = false;
             esperaFimQuadrado         = false;
@@ -1039,8 +1061,8 @@ public class Janela extends JFrame
     {
         public void actionPerformed (ActionEvent e)    
         {
-            if(esperaFimPoligono)
-                FinalizaPol();
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol(); 
             
             esperaPonto               = false;
               
@@ -1050,8 +1072,8 @@ public class Janela extends JFrame
             esperaCentroCirculo       = false;
             esperaRaioCirculo         = false;
              
-            esperaCantoInicalElipse   = false;
-            esperaCantoFinalElipse    = false;
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
               
             esperaInicioQuadrado      = false;
             esperaFimQuadrado         = false;
@@ -1075,8 +1097,15 @@ public class Janela extends JFrame
             try
             {
               if(esperaFimPoligono)
-                FinalizaPol();
-                
+               FinalizaPol();
+              
+              if(esperaInicioPoligono)
+              {
+                  statusFinalizaPol.setVisible(false);
+                  btnFinalizaPoligono.setVisible(false);
+                  statusVertices.setVisible(false);
+              }
+              
               esperaPonto               = false;
               
               esperaInicioReta          = false;
@@ -1085,8 +1114,8 @@ public class Janela extends JFrame
               esperaCentroCirculo       = false;
               esperaRaioCirculo         = false;
               
-              esperaCantoInicalElipse   = false;
-              esperaCantoFinalElipse    = false;
+              esperaInicioElipse        = false;
+              esperaFimElipse           = false;
               
               esperaInicioQuadrado      = false;
               esperaFimQuadrado         = false;
@@ -1098,8 +1127,9 @@ public class Janela extends JFrame
               esperaFimPoligono         = false;
               
               esperaInicioTexto         = false;
+              
+              
             
-           
               statusBar1.setText("Dica: clique no botão do que deseja desenhar");  
             
               figuras.remove(figuras.size()-1); // remove o ultimo salvo
@@ -1122,8 +1152,8 @@ public class Janela extends JFrame
     {
         public void actionPerformed (ActionEvent e)
         {
-            if(esperaFimPoligono)
-                FinalizaPol();
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol(); 
             
             //add salvar aqui
             
