@@ -16,11 +16,11 @@ a)Implementar validações nas classes prontas.
 
 Fase II
 
-a)Implementar o desenho de quadrado.
+**a)Implementar o desenho de quadrado. OK**
 
-b)Implementar o desenho de retângulo.
+**b)Implementar o desenho de retângulo. OK**
 
-c)Implementar o desenho de polígonos, clicando em seus vértices.
+**c)Implementar o desenho de polígonos, clicando em seus vértices. OK**
 
 **d)Implementar  a  escrita  de  texto (clica-se  em  uma  área,  mostra  o  texto  conforme  o  usuário digita). OK**
 
@@ -32,47 +32,6 @@ de ser usada quando outra fosse escolhida; OK**
 
 b) Implementar o desenho contínuo, ou seja, o desenho deve ir ocorrendo, crescendo ou diminuindo, à medida que o mouse é arrastado.
 
-c) Implementar salvamento de desenhos.
+**c) Implementar salvamento de desenhos. OK**
 
 d) Implementar carga (abertura de desenho já salvo) de desenhos.
-
-
-
-**--------------------COMO USAR GIT--------------------**
-
-**Baixar o projeto**
-
-git clone https://github.com/annajuliapg/Paint.git
-
-**Subir arquivos**
-
-git add .
-
-git commit -m " qualquer mensagem "
-
-git push origin <branch>
-  
-
-**Atualizar pasta no computador**
-
-git pull
-
-git commit -m " qualquer mensagem "
-
-
-**Criar novo branch**
-
-git checkout -b <branch>
-
-
-**Merge - Tem que estar sem alteração local**
-
-git checkout master
-
-git pull
-
-git checkout <branch>
-  
-git merge master
-
-e depois abrir um pull request e mergear
