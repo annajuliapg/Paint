@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.imageio.*;
 import java.io.*;
 import java.util.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
  
 public class Janela extends JFrame 
 {
@@ -40,11 +42,11 @@ public class Janela extends JFrame
                       esperaInicioElipse, esperaFimElipse,
                       esperaInicioQuadrado, esperaFimQuadrado,
                       esperaInicioRetangulo, esperaFimRetangulo,
-                      esperaInicioPoligono, esperaFimPoligono,// desenhaPoligono,
+                      esperaInicioPoligono, esperaFimPoligono,
                       esperaInicioTexto;
 
     protected Color corAtual = Color.BLACK;
-    protected Color corAtualPreenchimento;
+    protected Color corAtualPreenchimento = Color.BLACK;
     protected Ponto p1;
     
     protected int x[] = new int[10];
@@ -55,7 +57,7 @@ public class Janela extends JFrame
     protected Figura temp = null; // figura temporária para os desenhos contínuos
     
     protected String stringTexto = null;
-    protected Font fonteTexto = new Font("Arial", 0, 20);
+    protected Font fonteTexto = new Font("Calibri", 0, 20); // nome da fonte, estilo, tamanho
     
     protected Vector<Figura> figuras = new Vector<Figura>();
 
@@ -249,6 +251,8 @@ public class Janela extends JFrame
         btnCor.addActionListener (new EscolherCor ());
         btnCorPreenchimento.addActionListener (new EscolherCorPreenchimento ());
         
+        btnSalvar.addActionListener (new SalvarDesenho());
+        
         btnSair.addActionListener (new SairSalvar());
         
         btnApagar.addActionListener (new ApagarUltimoDesenho());
@@ -313,7 +317,7 @@ public class Janela extends JFrame
         this.setSize (1000,500);
         this.setVisible (true);
     }
-
+    
     protected class MeuJPanel extends    JPanel 
                               implements MouseListener,
                                          MouseMotionListener
@@ -973,6 +977,39 @@ public class Janela extends JFrame
         
     }
     
+    private class EscreverTexto extends JFrame implements ActionListener
+    {
+        public void actionPerformed (ActionEvent e)    
+        {
+            if((esperaFimPoligono)||(esperaInicioPoligono))
+               FinalizaPol(); 
+            
+            esperaPonto               = false;
+              
+            esperaInicioReta          = false;
+            esperaFimReta             = false;
+              
+            esperaCentroCirculo       = false;
+            esperaRaioCirculo         = false;
+             
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
+              
+            esperaInicioQuadrado      = false;
+            esperaFimQuadrado         = false;
+              
+            esperaInicioRetangulo     = false;
+            esperaFimRetangulo        = false;
+            
+            esperaInicioPoligono      = false;
+            esperaFimPoligono         = false;
+              
+            esperaInicioTexto         = true;            
+            
+            statusBar1.setText("Dica: clique onde deseja escrever o texto");
+        }
+    }
+    
     private class EscolherCor implements ActionListener 
     {        
         public void actionPerformed (ActionEvent e) 
@@ -1006,9 +1043,9 @@ public class Janela extends JFrame
             
             JColorChooser javacor = new JColorChooser();
             
-            Color corContorno = javacor.showDialog(btnCor, "Selecione a Cor Desejada", Color.black);
+            Color cor = javacor.showDialog(btnCor, "Selecione a Cor Desejada", Color.black);
             
-            corAtual = corContorno;
+            corAtual = cor;
             
             statusBar1.setText("Dica: clique no botão do que deseja desenhar");
             
@@ -1056,40 +1093,7 @@ public class Janela extends JFrame
             statusBar1.setText("Dica: clique no botão do que deseja desenhar");
         }
     }
-    
-    private class EscreverTexto extends JFrame implements ActionListener
-    {
-        public void actionPerformed (ActionEvent e)    
-        {
-            if((esperaFimPoligono)||(esperaInicioPoligono))
-               FinalizaPol(); 
-            
-            esperaPonto               = false;
-              
-            esperaInicioReta          = false;
-            esperaFimReta             = false;
-              
-            esperaCentroCirculo       = false;
-            esperaRaioCirculo         = false;
-             
-            esperaInicioElipse        = false;
-            esperaFimElipse           = false;
-              
-            esperaInicioQuadrado      = false;
-            esperaFimQuadrado         = false;
-              
-            esperaInicioRetangulo     = false;
-            esperaFimRetangulo        = false;
-            
-            esperaInicioPoligono      = false;
-            esperaFimPoligono         = false;
-              
-            esperaInicioTexto         = true;            
-            
-            statusBar1.setText("Dica: clique onde deseja escrever o texto");
-        }
-    }
-    
+
     protected class ApagarUltimoDesenho implements ActionListener // apagando o ultimo desenho
     {
         public void actionPerformed (final ActionEvent e)    
@@ -1128,8 +1132,7 @@ public class Janela extends JFrame
               
               esperaInicioTexto         = false;
               
-              
-            
+                         
               statusBar1.setText("Dica: clique no botão do que deseja desenhar");  
             
               figuras.remove(figuras.size()-1); // remove o ultimo salvo
@@ -1146,6 +1149,55 @@ public class Janela extends JFrame
                        
            
         }
+    }
+    
+    protected class SalvarDesenho implements ActionListener
+    {
+        public void actionPerformed (ActionEvent e)
+        {
+            Salvar();
+        }
+    }
+    
+    public void Salvar() 
+    {
+        JFileChooser path = new JFileChooser();
+        
+        path.setFileFilter (new FileNameExtensionFilter("Paint", "paint", ".paint"));
+        
+        path.setAcceptAllFileFilterUsed(false);
+        
+        int resposta = path.showSaveDialog(Janela.this);
+        
+        if (resposta == JFileChooser.APPROVE_OPTION)
+        {
+            try 
+            {
+                String arquivo = path.getSelectedFile().getAbsolutePath();
+
+                if(!arquivo.endsWith(".paint"))
+                    arquivo+=".paint";
+
+                FileWriter arq = new FileWriter(arquivo);
+
+                for(Figura f : this.figuras)
+                {          
+                    arq.write(f.toString());
+
+                    arq.write("\n");      
+                }
+
+                arq.close();
+            
+            } 
+            catch (Exception ex) 
+            {                        
+                ex.printStackTrace();
+            } 
+        }
+        
+        
+       
     }
     
     protected class SairSalvar implements ActionListener

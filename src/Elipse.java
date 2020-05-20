@@ -10,7 +10,7 @@ public class Elipse extends Figura
     
     public Elipse (int x1, int y1, int x2, int y2, int largura, int altura)
     {
-        this (x1, y1, x2, y2, largura, altura, Color.BLACK, Color.WHITE);
+        this (x1, y1, x2, y2, largura, altura, Color.BLACK, Color.BLACK);
     }
 	
     public Elipse (int x1, int y1, int x2, int y2, int largura, int altura, Color cor, Color preenchimento)

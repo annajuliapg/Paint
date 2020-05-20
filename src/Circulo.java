@@ -10,7 +10,7 @@ public class Circulo extends Figura
     
     public Circulo (int x, int y, int raio)
     {
-        this (x, y, raio, Color.BLACK, Color.WHITE);
+        this (x, y, raio, Color.BLACK, Color.BLACK);
     }
 	
     public Circulo (int x, int y, int raio, Color cor, Color preenchimento)
@@ -32,7 +32,7 @@ public class Circulo extends Figura
 
         int   raio  = Integer.parseInt(quebrador.nextToken());
 
-        Color contorno = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                Integer.parseInt(quebrador.nextToken()),       // G
                                Integer.parseInt(quebrador.nextToken()));      // B
         
@@ -81,11 +81,7 @@ public class Circulo extends Figura
         g.setColor(this.cor);
         
         g.drawOval(this.centro.getX() - this.raio, this.centro.getY()-this.raio,   // centro
-                   2*this.raio, 2*this.raio);                                      // diametro
-        
-        
-
-        
+                   2*this.raio, 2*this.raio);                                      // diametro  
     }
 
     public String toString()

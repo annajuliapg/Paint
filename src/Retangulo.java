@@ -8,12 +8,12 @@ public class Retangulo extends Figura
 	
     public Retangulo (int x1, int y1, int x2, int y2) 
     {
-        this (x1, y1, x2, y2, Color.BLACK, Color.WHITE);
+        this (x1, y1, x2, y2, Color.BLACK, Color.BLACK);
     }
 	
     public Retangulo (int x1, int y1, int x2, int y2, Color cor) 
     {
-        this (x1, y1, x2, y2, Color.BLACK, Color.WHITE);
+        this (x1, y1, x2, y2, Color.BLACK, Color.BLACK);
     }
     
     public Retangulo (int x1, int y1, int x2, int y2, Color cor, Color preenchimento) 
@@ -152,8 +152,9 @@ public class Retangulo extends Figura
         g.drawPolygon (x, y, 4);
     }
 
-    public String toString() {
-        return "q:" +
+    public String toString() 
+    {
+        return "r:" +
                this.x[0] +
                ":" +
                this.y[0] +

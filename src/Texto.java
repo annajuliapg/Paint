@@ -41,7 +41,7 @@ public class Texto extends Figura {
     
     }
  
-    public void setInicio (int x, int y) 
+    public void setPosicao (int x, int y) 
     {
         this.posição = new Ponto (x,y,this.getCor());
     }
@@ -51,7 +51,7 @@ public class Texto extends Figura {
         this.texto = texto;
     }
        
-    public Ponto getInicio () 
+    public Ponto getPosicao () 
     {
         return this.posição;
     }
@@ -63,11 +63,11 @@ public class Texto extends Figura {
  
     public void torneSeVisivel (Graphics g) 
     {                          
-            g.setColor (this.cor);
+        g.setColor (this.cor);
             
-            g.setFont(this.fonte);
+        g.setFont(this.fonte);
             
-            g.drawString(this.texto, this.posição.getX(), this.posição.getY());            
+        g.drawString(this.texto, this.posição.getX(), this.posição.getY());          
     }
  
     public String toString() 
@@ -85,11 +85,11 @@ public class Texto extends Figura {
                ":" +
                this.getCor().getBlue() +
                 ":" +
-               this.fonte.getSize() +
-               ":" +
                this.fonte.getFamily() +
                ":" +
-               this.fonte.getStyle();
+               this.fonte.getStyle() +
+               ":" +
+               this.fonte.getSize();
     }
     
 }

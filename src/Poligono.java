@@ -6,11 +6,11 @@ public class Poligono extends Figura
     protected int x[] = new int[10];
     protected int y[] = new int[10];
    
-    protected int vert;
+    protected int numVert;
        
     public Poligono (int x[], int y[], int n)
     {
-        this (x, y, n, Color.BLACK, Color.white);
+        this (x, y, n, Color.BLACK, Color.BLACK);
     }
        
     public Poligono (int X[], int Y[], int n, Color cor, Color preenchimento)
@@ -23,12 +23,12 @@ public class Poligono extends Figura
             y[i] = Y[i];
         }
        
-        vert = n; 
+        numVert = n; 
     }
  
-    public Poligono (String p)
+    public Poligono (String s)
     {
-        /*StringTokenizer quebrador = new StringTokenizer(p,":");
+        /*StringTokenizer quebrador = new StringTokenizer(s,":");
  
         quebrador.nextToken();
  
@@ -56,35 +56,36 @@ public class Poligono extends Figura
     {
             g.setColor(this.preenchimento);
             
-            g.fillPolygon(x, y, vert);
+            g.fillPolygon(x, y, numVert);
             
             g.setColor (this.cor);
             
-            g.drawPolygon(x, y, vert);
+            g.drawPolygon(x, y, numVert);
  
     }
  
     public String toString()
     {
-        String ponto = "";
-        for(int i = 0; i < vert; i++)
+        String vertices = "";
+        
+        for(int i = 0; i < 10; i++) // não pode ser i < número de vértices, tem que ser i < tamanho do vetor
         {
-            ponto = ponto + x[i] + ":" + y[i] + ":";
+            vertices = vertices + x[i] + ":" + y[i] + ":";
         }
         
-        return "g:" +
-               vert +
+        return "pol:" +
+               numVert +
                ":" +               
-               ponto +
+               vertices +
                this.getCor().getRed() +
                ":" +
                this.getCor().getGreen() +
                ":" +
                this.getCor().getBlue() +
                 ":" +
-               this.getPreenchimento().getRed() + //daqui pra baixo pra salvar a cor do preenchimento
+               this.getPreenchimento().getRed() +
                 ":" +
-               this.getPreenchimento().getGreen() + //sujeito a erros lol
+               this.getPreenchimento().getGreen() +
                 ":" +
                this.getPreenchimento().getBlue();
     }   

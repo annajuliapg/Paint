@@ -3,7 +3,7 @@ import java.awt.*;
 public abstract class Figura
 {
     protected Color cor;
-    protected Color preenchimento = new Color (0,0,0,0);
+    protected Color preenchimento;
     
 	  
     protected Figura ()
@@ -13,7 +13,7 @@ public abstract class Figura
 	  
     protected Figura (Color cor)
     {
-       this (cor, Color.WHITE);
+       this (cor, Color.BLACK);
     }
     
     protected Figura (Color cor, Color preenchimento)
