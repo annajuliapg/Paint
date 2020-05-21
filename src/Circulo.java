@@ -33,12 +33,12 @@ public class Circulo extends Figura
         int   raio  = Integer.parseInt(quebrador.nextToken());
 
         Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),       // G
-                               Integer.parseInt(quebrador.nextToken()));      // B
+                               Integer.parseInt(quebrador.nextToken()),  // G
+                               Integer.parseInt(quebrador.nextToken())); // B
         
         Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),            // G
-                               Integer.parseInt(quebrador.nextToken()));           // B
+                                         Integer.parseInt(quebrador.nextToken()),  // G
+                                         Integer.parseInt(quebrador.nextToken())); // B
 
         
         

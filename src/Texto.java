@@ -31,13 +31,30 @@ public class Texto extends Figura {
  
         int   x   = Integer.parseInt(quebrador.nextToken());
         int   y   = Integer.parseInt(quebrador.nextToken());
+        
+        String texto = quebrador.nextToken();
  
         Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                Integer.parseInt(quebrador.nextToken()),  // G
                                Integer.parseInt(quebrador.nextToken())); // B
+        
+        
+        Font fonte = new Font (quebrador.nextToken(),                     // nome da fonte
+                               Integer.parseInt(quebrador.nextToken()),   // estilo da fonte
+                               Integer.parseInt(quebrador.nextToken()));  // tamanho da fonte
+        
+        String fonteNome = quebrador.nextToken();
+        int fonteEstilo  = Integer.parseInt(quebrador.nextToken());
+        int fonteTamanho = Integer.parseInt(quebrador.nextToken());
  
-        this.posição   = new Ponto (x,y);
-        this.cor      = cor;
+        
+        this.posição = new Ponto (x,y);
+        
+        this.texto = texto;
+        
+        this.cor   = cor;
+        
+        this.fonte = fonte;
     
     }
  

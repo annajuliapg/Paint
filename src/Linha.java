@@ -36,6 +36,7 @@ public class Linha extends Figura
 
         this.p1  = new Ponto (x1,y1,cor);
         this.p2  = new Ponto (x2,y2,cor);
+        
         this.cor = cor;
     }
 

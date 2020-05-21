@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.imageio.*;
 import java.io.*;
 import java.util.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.*;
 
  
 public class Janela extends JFrame 
@@ -250,6 +250,8 @@ public class Janela extends JFrame
         
         btnCor.addActionListener (new EscolherCor ());
         btnCorPreenchimento.addActionListener (new EscolherCorPreenchimento ());
+        
+        btnAbrir.addActionListener (new AbrirDesenho());
         
         btnSalvar.addActionListener (new SalvarDesenho());
         
@@ -1159,46 +1161,98 @@ public class Janela extends JFrame
         }
     }
     
+    protected class AbrirDesenho implements ActionListener
+    {
+        public void actionPerformed (ActionEvent e)
+        {
+            Abrir();
+        }
+    }
+    
     public void Salvar() 
     {
-        JFileChooser path = new JFileChooser();
-        
-        path.setFileFilter (new FileNameExtensionFilter("Paint", "paint", ".paint"));
-        
-        path.setAcceptAllFileFilterUsed(false);
-        
-        int resposta = path.showSaveDialog(Janela.this);
-        
-        if (resposta == JFileChooser.APPROVE_OPTION)
-        {
-            try 
-            {
-                String arquivo = path.getSelectedFile().getAbsolutePath();
-
-                if(!arquivo.endsWith(".paint"))
-                    arquivo+=".paint";
-
-                FileWriter arq = new FileWriter(arquivo);
-
-                for(Figura f : this.figuras)
-                {          
-                    arq.write(f.toString());
-
-                    arq.write("\n");      
-                }
-
-                arq.close();
+       JFileChooser chooser = new JFileChooser();
+    
+       FileNameExtensionFilter filter = new FileNameExtensionFilter("Paint Files", "paint", ".paint");
+    
+       chooser.setFileFilter(filter);
+    
+       int returnVal = chooser.showSaveDialog(Janela.this);
+    
+       if(returnVal == JFileChooser.APPROVE_OPTION) 
+       {
+          try
+          {
+            String arquivo = chooser.getSelectedFile().getPath();
             
-            } 
-            catch (Exception ex) 
-            {                        
-                ex.printStackTrace();
-            } 
+            if(!arquivo.endsWith(".paint"))
+                arquivo+=".paint";
+                
+            PrintWriter arq = new PrintWriter (new FileWriter (arquivo));
+                
+            for (Figura f : this.figuras)
+                 arq.println (f);
+            
+            arq.close();
+            
+           }
+           catch (Exception e)
+           {
+                e.printStackTrace();
+           }
         }
-        
-        
-       
     }
+    
+    public void Abrir()
+    {
+       JFileChooser chooser = new JFileChooser();
+    
+       FileNameExtensionFilter filter = new FileNameExtensionFilter("Paint Files", "paint", ".paint");
+    
+       chooser.setFileFilter(filter);
+    
+       int returnVal = chooser.showOpenDialog(Janela.this);
+       
+       if(returnVal == JFileChooser.APPROVE_OPTION) 
+       {
+          try
+          {
+            String arquivo = chooser.getSelectedFile().getPath();
+            
+            BufferedReader arq = new BufferedReader (new FileReader (arquivo));
+                    
+            this.figuras.clear();
+            
+            repaint();
+            
+                while (arq.ready())
+                {
+                    String linTxt = arq.readLine();
+
+                    switch (linTxt.charAt(0))
+                    {
+                        case 'p': 
+                        this.figuras.add (new Ponto (linTxt));
+                        break;
+
+                        case 'l': 
+                        this.figuras.add (new Linha (linTxt));
+                        break;
+
+                        // falta o circulo, elispe, quadrado, retangulo, poligono e texto
+                    }
+
+                    this.figuras.get (this.figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                }
+          
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    
     
     protected class SairSalvar implements ActionListener
     {

@@ -112,14 +112,14 @@ public class Quadrado extends Figura
         int x[] = new int[4];
         int y[] = new int[4];
 
-        x[0]   = Integer.parseInt(quebrador.nextToken());
-        y[0]   = Integer.parseInt(quebrador.nextToken());
-        x[1]   = Integer.parseInt(quebrador.nextToken());
-        y[1]   = Integer.parseInt(quebrador.nextToken());
-        x[2]   = Integer.parseInt(quebrador.nextToken());
-        y[2]   = Integer.parseInt(quebrador.nextToken());
-        x[3]   = Integer.parseInt(quebrador.nextToken());
-        y[3]   = Integer.parseInt(quebrador.nextToken());
+        x[0] = Integer.parseInt(quebrador.nextToken());
+        y[0] = Integer.parseInt(quebrador.nextToken());
+        x[1] = Integer.parseInt(quebrador.nextToken());
+        y[1] = Integer.parseInt(quebrador.nextToken());
+        x[2] = Integer.parseInt(quebrador.nextToken());
+        y[2] = Integer.parseInt(quebrador.nextToken());
+        x[3] = Integer.parseInt(quebrador.nextToken());
+        y[3] = Integer.parseInt(quebrador.nextToken());
 
         int   lado   = Integer.parseInt(quebrador.nextToken());
 
@@ -128,16 +128,24 @@ public class Quadrado extends Figura
                                Integer.parseInt(quebrador.nextToken())); // B
         
         Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),            // G
-                               Integer.parseInt(quebrador.nextToken()));           // B
+                                         Integer.parseInt(quebrador.nextToken()),  // G
+                                         Integer.parseInt(quebrador.nextToken())); // B
         
-        this.x[0] = x[0]; this.x[1] = x[1]; this.x[2] = x[2]; this.x[3] = x[3];
-        this.y[0] = y[0]; this.y[1] = y[1]; this.y[2] = y[2]; this.y[3] = y[3];
+        this.x[0] = x[0]; this.y[0] = y[0];
+        
+        this.x[1] = x[1]; this.y[1] = y[1];
+        
+        this.x[2] = x[2]; this.y[2] = y[2];
+        
+        this.x[3] = x[3]; this.y[3] = y[3];
+         
+        this.lado = lado;
         
         this.cor            = cor;
         this.preenchimento  = preenchimento;
     }
 
+    //setters
     public void setP0 (int x, int y) 
     {
         this.x[0] = x;
@@ -149,6 +157,7 @@ public class Quadrado extends Figura
         this.lado = lado;
     }
     
+    //getters
     public int getXP0 ()
     {
         return this.x[0];
@@ -168,7 +177,7 @@ public class Quadrado extends Figura
     {
         g.setColor (this.preenchimento);
         
-        g.fillPolygon (x, y, 4); //preenchendo o quadrado
+        g.fillPolygon (x, y, 4); // preenchendo o quadrado
         
         g.setColor (this.cor);
         

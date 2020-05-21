@@ -67,16 +67,13 @@ public class Elipse extends Figura
         int   largura  = Integer.parseInt(quebrador.nextToken());
         int   altura  = Integer.parseInt(quebrador.nextToken());
 
-        Color contorno = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),       // G
-                               Integer.parseInt(quebrador.nextToken()));      // B
+        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                               Integer.parseInt(quebrador.nextToken()),  // G
+                               Integer.parseInt(quebrador.nextToken())); // B
         
         Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),            // G
-                               Integer.parseInt(quebrador.nextToken()));           // B
-                               
-
-         
+                                         Integer.parseInt(quebrador.nextToken()),  // G
+                                         Integer.parseInt(quebrador.nextToken())); // B        
         
         this.p1 = new Ponto (x1,y1);
         this.p2 = new Ponto (x2,y2);

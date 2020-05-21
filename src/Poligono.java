@@ -28,27 +28,34 @@ public class Poligono extends Figura
  
     public Poligono (String s)
     {
-        /*StringTokenizer quebrador = new StringTokenizer(s,":");
+        StringTokenizer quebrador = new StringTokenizer(s,":");
  
         quebrador.nextToken();
  
-        int   x   = Integer.parseInt(quebrador.nextToken());
-        int   y   = Integer.parseInt(quebrador.nextToken());
- 
-        int   w   = Integer.parseInt(quebrador.nextToken());
-        int   h   = Integer.parseInt(quebrador.nextToken());
-       
-        //auxiliares
+        int   numVertices   = Integer.parseInt(quebrador.nextToken());
+        
+        int x [] = new int [10];
+        int y [] = new int [10];
+        
+        for(int i = 0; i < 10; i++) // não pode ser i < número de vértices, tem que ser i < tamanho do vetor
+        {
+            x[i] = Integer.parseInt(quebrador.nextToken());
+            y[i] = Integer.parseInt(quebrador.nextToken());
+        }
  
         Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                Integer.parseInt(quebrador.nextToken()),  // G
                                Integer.parseInt(quebrador.nextToken())); // B
          
         Color cor2 = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                                                Integer.parseInt(quebrador.nextToken()),  // G
-                                                Integer.parseInt(quebrador.nextToken())); // B
+                                Integer.parseInt(quebrador.nextToken()),  // G
+                                Integer.parseInt(quebrador.nextToken())); // B
+        
+        this.x = x;
+        this.y = y;
+        
         this.cor      = cor;
-        this.preenchimento     = cor2;*/
+        this.preenchimento     = cor2;
        
     }
  
@@ -56,7 +63,7 @@ public class Poligono extends Figura
     {
             g.setColor(this.preenchimento);
             
-            g.fillPolygon(x, y, numVert);
+            g.fillPolygon(x, y, numVert); // preenchendo o poligono
             
             g.setColor (this.cor);
             
@@ -64,7 +71,7 @@ public class Poligono extends Figura
  
     }
  
-    public String toString()
+    public String toString() 
     {
         String vertices = "";
         
@@ -73,7 +80,8 @@ public class Poligono extends Figura
             vertices = vertices + x[i] + ":" + y[i] + ":";
         }
         
-        return "pol:" +
+        //g: poliGono
+        return "g:" +
                numVert +
                ":" +               
                vertices +
