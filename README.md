@@ -30,8 +30,8 @@ Fase III
 **a) Implementar o uso contínuo de ferramenta, ou seja, escolhida uma ferramenta ela só deixaria
 de ser usada quando outra fosse escolhida; OK**
 
-b) Implementar o desenho contínuo, ou seja, o desenho deve ir ocorrendo, crescendo ou diminuindo, à medida que o mouse é arrastado.
+**b) Implementar o desenho contínuo, ou seja, o desenho deve ir ocorrendo, crescendo ou diminuindo, à medida que o mouse é arrastado. OK**
 
 **c) Implementar salvamento de desenhos. OK**
 
-d) Implementar carga (abertura de desenho já salvo) de desenhos.
+**d) Implementar carga (abertura de desenho já salvo) de desenhos. OK**
