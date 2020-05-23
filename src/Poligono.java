@@ -3,8 +3,10 @@ import java.util.*;
  
 public class Poligono extends Figura
 {
-    protected int x[] = new int[10];
-    protected int y[] = new int[10];
+    protected int tamanhoVetor = 10;
+    
+    protected int x[] = new int[tamanhoVetor];
+    protected int y[] = new int[tamanhoVetor];
    
     protected int numVert;
        
@@ -32,12 +34,12 @@ public class Poligono extends Figura
  
         quebrador.nextToken();
  
-        int   numVertices   = Integer.parseInt(quebrador.nextToken());
+        int   numVert   = Integer.parseInt(quebrador.nextToken());
         
-        int x [] = new int [10];
-        int y [] = new int [10];
+        int x [] = new int [tamanhoVetor];
+        int y [] = new int [tamanhoVetor];
         
-        for(int i = 0; i < 10; i++) // não pode ser i < número de vértices, tem que ser i < tamanho do vetor
+        for(int i = 0; i < tamanhoVetor; i++) // não pode ser i < número de vértices, tem que ser i < tamanho do vetor
         {
             x[i] = Integer.parseInt(quebrador.nextToken());
             y[i] = Integer.parseInt(quebrador.nextToken());
@@ -51,12 +53,52 @@ public class Poligono extends Figura
                                 Integer.parseInt(quebrador.nextToken()),  // G
                                 Integer.parseInt(quebrador.nextToken())); // B
         
+        this.numVert = numVert;
+        
         this.x = x;
         this.y = y;
         
-        this.cor      = cor;
-        this.preenchimento     = cor2;
+        this.cor            = cor;
+        this.preenchimento  = cor2;
        
+    }
+    
+    //setters
+    public void setVetorX (int X[])
+    {
+       for(int i = 0; i < tamanhoVetor; i++)
+        {
+            this.x[i] = X[i];
+        }      
+    }
+    
+    public void setVetorY (int Y[])
+    {
+       for(int i = 0; i < tamanhoVetor; i++)
+        {
+            this.y[i] = Y[i];
+        }      
+    }
+    
+    public void setNumVert (int numVert)
+    {
+        this.numVert = numVert;
+    }
+    
+    //getters
+    public int[] getVetorX ()
+    {        
+        return this.x;
+    }
+    
+    public int[] getVetorY ()
+    {        
+        return this.y;
+    }
+    
+    public int getNumVert ()
+    {
+        return this.numVert;
     }
  
     public void torneSeVisivel (Graphics g)
@@ -75,7 +117,7 @@ public class Poligono extends Figura
     {
         String vertices = "";
         
-        for(int i = 0; i < 10; i++) // não pode ser i < número de vértices, tem que ser i < tamanho do vetor
+        for(int i = 0; i < tamanhoVetor; i++) // não pode ser i < número de vértices, tem que ser i < tamanho do vetor
         {
             vertices = vertices + x[i] + ":" + y[i] + ":";
         }

@@ -41,12 +41,7 @@ public class Texto extends Figura {
         
         Font fonte = new Font (quebrador.nextToken(),                     // nome da fonte
                                Integer.parseInt(quebrador.nextToken()),   // estilo da fonte
-                               Integer.parseInt(quebrador.nextToken()));  // tamanho da fonte
-        
-        String fonteNome = quebrador.nextToken();
-        int fonteEstilo  = Integer.parseInt(quebrador.nextToken());
-        int fonteTamanho = Integer.parseInt(quebrador.nextToken());
- 
+                               Integer.parseInt(quebrador.nextToken()));  // tamanho da fonte 
         
         this.posição = new Ponto (x,y);
         
