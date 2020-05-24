@@ -3,7 +3,7 @@
 
 Fase I
 
-a)Implementar validações nas classes prontas.
+**a)Implementar validações nas classes prontas. OK**
 
 **b)Implementar coloração de contorno. OK**
 
