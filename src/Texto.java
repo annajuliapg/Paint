@@ -25,32 +25,38 @@ public class Texto extends Figura {
  
     public Texto (String s) 
     {
-        StringTokenizer quebrador = new StringTokenizer(s,":");
- 
-        quebrador.nextToken();
- 
-        int   x   = Integer.parseInt(quebrador.nextToken());
-        int   y   = Integer.parseInt(quebrador.nextToken());
-        
-        String texto = quebrador.nextToken();
- 
-        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),  // G
-                               Integer.parseInt(quebrador.nextToken())); // B
-        
-        
-        Font fonte = new Font (quebrador.nextToken(),                     // nome da fonte
-                               Integer.parseInt(quebrador.nextToken()),   // estilo da fonte
-                               Integer.parseInt(quebrador.nextToken()));  // tamanho da fonte 
-        
-        this.posição = new Ponto (x,y);
-        
-        this.texto = texto;
-        
-        this.cor   = cor;
-        
-        this.fonte = fonte;
-    
+        try
+        {
+            StringTokenizer quebrador = new StringTokenizer(s,":");
+
+            quebrador.nextToken();
+
+            int   x   = Integer.parseInt(quebrador.nextToken());
+            int   y   = Integer.parseInt(quebrador.nextToken());
+
+            String texto = quebrador.nextToken();
+
+            Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                   Integer.parseInt(quebrador.nextToken()),  // G
+                                   Integer.parseInt(quebrador.nextToken())); // B
+
+
+            Font fonte = new Font (quebrador.nextToken(),                     // nome da fonte
+                                   Integer.parseInt(quebrador.nextToken()),   // estilo da fonte
+                                   Integer.parseInt(quebrador.nextToken()));  // tamanho da fonte 
+
+            this.posição = new Ponto (x,y);
+
+            this.texto = texto;
+
+            this.cor   = cor;
+
+            this.fonte = fonte;
+        }
+        catch(Exception i)
+        {
+            System.out.println("Valores inválidos");
+        }    
     }
  
     public void setPosicao (int x, int y) 

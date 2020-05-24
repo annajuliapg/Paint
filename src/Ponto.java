@@ -14,22 +14,29 @@ public class Ponto extends Figura
     {
         super (cor);
 
-        this.x = x;
-        this.y = y;
+        this.x = Math.abs (x);
+        this.y = Math.abs (y);
     }
 
     public Ponto (String s)
     {
-        StringTokenizer quebrador = new StringTokenizer(s,":");
+        try
+        {
+            StringTokenizer quebrador = new StringTokenizer(s,":");
 
-        quebrador.nextToken();
+            quebrador.nextToken();
 
-        this.x = Integer.parseInt(quebrador.nextToken());
-        this.y = Integer.parseInt(quebrador.nextToken());
+            this.x = Integer.parseInt(quebrador.nextToken());
+            this.y = Integer.parseInt(quebrador.nextToken());
 
-        this.cor = new Color (Integer.parseInt(quebrador.nextToken()),   // R
-                              Integer.parseInt(quebrador.nextToken()),   // G
-                              Integer.parseInt(quebrador.nextToken()));  // B
+            this.cor = new Color (Integer.parseInt(quebrador.nextToken()),   // R
+                                  Integer.parseInt(quebrador.nextToken()),   // G
+                                  Integer.parseInt(quebrador.nextToken()));  // B
+        }
+        catch(Exception i)
+        {
+            System.out.println("Valores inválidos");
+        }
     }
 
     // setters

@@ -55,34 +55,41 @@ public class Elipse extends Figura
 
     public Elipse (String s)
     {
-        StringTokenizer quebrador = new StringTokenizer(s,":");
+        try
+        {
+            StringTokenizer quebrador = new StringTokenizer(s,":");
 
-        quebrador.nextToken();
+            quebrador.nextToken();
 
-        int   x1  = Integer.parseInt(quebrador.nextToken());
-        int   y1  = Integer.parseInt(quebrador.nextToken());
-        int   x2  = Integer.parseInt(quebrador.nextToken());
-        int   y2  = Integer.parseInt(quebrador.nextToken());
+            int   x1  = Integer.parseInt(quebrador.nextToken());
+            int   y1  = Integer.parseInt(quebrador.nextToken());
+            int   x2  = Integer.parseInt(quebrador.nextToken());
+            int   y2  = Integer.parseInt(quebrador.nextToken());
 
-        int   largura  = Integer.parseInt(quebrador.nextToken());
-        int   altura  = Integer.parseInt(quebrador.nextToken());
+            int   largura  = Integer.parseInt(quebrador.nextToken());
+            int   altura  = Integer.parseInt(quebrador.nextToken());
 
-        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),  // G
-                               Integer.parseInt(quebrador.nextToken())); // B
-        
-        Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                                         Integer.parseInt(quebrador.nextToken()),  // G
-                                         Integer.parseInt(quebrador.nextToken())); // B        
-        
-        this.p1 = new Ponto (x1,y1);
-        this.p2 = new Ponto (x2,y2);
-                    
-        this.largura = largura;
-        this.altura = altura;
-        
-        this.cor = cor;
-        this.preenchimento = preenchimento;
+            Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                   Integer.parseInt(quebrador.nextToken()),  // G
+                                   Integer.parseInt(quebrador.nextToken())); // B
+
+            Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                             Integer.parseInt(quebrador.nextToken()),  // G
+                                             Integer.parseInt(quebrador.nextToken())); // B        
+
+            this.p1 = new Ponto (x1,y1);
+            this.p2 = new Ponto (x2,y2);
+
+            this.largura = largura;
+            this.altura = altura;
+
+            this.cor = cor;
+            this.preenchimento = preenchimento;
+        }
+        catch(Exception i)
+        {
+            System.out.println("Valores inválidos");
+        }
     }
 
     //setters

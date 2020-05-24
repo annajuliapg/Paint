@@ -23,30 +23,37 @@ public class Circulo extends Figura
 
     public Circulo (String s)
     {
-        StringTokenizer quebrador = new StringTokenizer(s,":");
+        try
+        {
+            StringTokenizer quebrador = new StringTokenizer(s,":");
 
-        quebrador.nextToken();
+            quebrador.nextToken();
 
-        int   x  = Integer.parseInt(quebrador.nextToken());
-        int   y  = Integer.parseInt(quebrador.nextToken());
+            int   x  = Integer.parseInt(quebrador.nextToken());
+            int   y  = Integer.parseInt(quebrador.nextToken());
 
-        int   raio  = Integer.parseInt(quebrador.nextToken());
+            int   raio  = Integer.parseInt(quebrador.nextToken());
 
-        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),  // G
-                               Integer.parseInt(quebrador.nextToken())); // B
-        
-        Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                                         Integer.parseInt(quebrador.nextToken()),  // G
-                                         Integer.parseInt(quebrador.nextToken())); // B
+            Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                   Integer.parseInt(quebrador.nextToken()),  // G
+                                   Integer.parseInt(quebrador.nextToken())); // B
 
-        
-        
-        this.centro  = new Ponto (x,y);
-        this.raio  = raio;
-        
-        this.cor = cor;
-        this.preenchimento = preenchimento;
+            Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                             Integer.parseInt(quebrador.nextToken()),  // G
+                                             Integer.parseInt(quebrador.nextToken())); // B
+
+
+
+            this.centro  = new Ponto (x,y);
+            this.raio  = raio;
+
+            this.cor = cor;
+            this.preenchimento = preenchimento;
+        }
+        catch(Exception i)
+        {
+            System.out.println("Valores inválidos");
+        }
     }
 
     // setters

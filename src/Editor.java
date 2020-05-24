@@ -5,3 +5,5 @@ public class Editor
         new Janela ();
     }
 }
+
+//VERSÂO FINAL

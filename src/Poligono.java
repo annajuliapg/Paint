@@ -30,37 +30,43 @@ public class Poligono extends Figura
  
     public Poligono (String s)
     {
-        StringTokenizer quebrador = new StringTokenizer(s,":");
- 
-        quebrador.nextToken();
- 
-        int   numVert   = Integer.parseInt(quebrador.nextToken());
-        
-        int x [] = new int [tamanhoVetor];
-        int y [] = new int [tamanhoVetor];
-        
-        for(int i = 0; i < tamanhoVetor; i++) // não pode ser i < número de vértices, tem que ser i < tamanho do vetor
+        try
         {
-            x[i] = Integer.parseInt(quebrador.nextToken());
-            y[i] = Integer.parseInt(quebrador.nextToken());
+            StringTokenizer quebrador = new StringTokenizer(s,":");
+
+            quebrador.nextToken();
+
+            int   numVert   = Integer.parseInt(quebrador.nextToken());
+
+            int x [] = new int [tamanhoVetor];
+            int y [] = new int [tamanhoVetor];
+
+            for(int i = 0; i < tamanhoVetor; i++) // não pode ser i < número de vértices, tem que ser i < tamanho do vetor
+            {
+                x[i] = Integer.parseInt(quebrador.nextToken());
+                y[i] = Integer.parseInt(quebrador.nextToken());
+            }
+
+            Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                   Integer.parseInt(quebrador.nextToken()),  // G
+                                   Integer.parseInt(quebrador.nextToken())); // B
+
+            Color cor2 = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                    Integer.parseInt(quebrador.nextToken()),  // G
+                                    Integer.parseInt(quebrador.nextToken())); // B
+
+            this.numVert = numVert;
+
+            this.x = x;
+            this.y = y;
+
+            this.cor            = cor;
+            this.preenchimento  = cor2;
         }
- 
-        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),  // G
-                               Integer.parseInt(quebrador.nextToken())); // B
-         
-        Color cor2 = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                                Integer.parseInt(quebrador.nextToken()),  // G
-                                Integer.parseInt(quebrador.nextToken())); // B
-        
-        this.numVert = numVert;
-        
-        this.x = x;
-        this.y = y;
-        
-        this.cor            = cor;
-        this.preenchimento  = cor2;
-       
+        catch(Exception i)
+        {
+            System.out.println("Valores inválidos");
+        }       
     }
     
     //setters

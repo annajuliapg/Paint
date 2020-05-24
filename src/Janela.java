@@ -257,7 +257,7 @@ public class Janela extends JFrame
         
         btnSalvar.addActionListener (new SalvarDesenho());
         
-        btnSair.addActionListener (new SairSalvar());
+        btnSair.addActionListener (new Sair());
         
         btnApagar.addActionListener (new ApagarUltimoDesenho());
         
@@ -534,7 +534,8 @@ public class Janela extends JFrame
                                 figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
 
                                 statusBar1.setText("Dica: clique em um ponto do retangulo e arraste o mouse");
-
+                                
+                                temp = null;
                                 esperaInicioRetangulo = true;
                             }                    
         }
@@ -675,7 +676,7 @@ public class Janela extends JFrame
         
         public void mouseMoved(final MouseEvent e)
         {         
-            statusBar2.setText("Coordenada: "+e.getX()+","+e.getY());
+            statusBar2.setText("Coordenada X: "+ e.getX() + " Coordenada Y: " + e.getY());
         }
     }
     
@@ -1415,7 +1416,7 @@ public class Janela extends JFrame
         }
     }
     
-    protected class SairSalvar implements ActionListener
+    protected class Sair implements ActionListener
     {
         public void actionPerformed (ActionEvent e)
         {
@@ -1439,6 +1440,5 @@ public class Janela extends JFrame
         {
             System.exit(0);
         }
-    }
-        
+    }        
 }

@@ -12,13 +12,20 @@ public abstract class Figura
     }
 	  
     protected Figura (Color cor)
-    {
-       this (cor, Color.BLACK);
+    {        
+        this (cor, Color.BLACK);  
     }
     
     protected Figura (Color cor, Color preenchimento)
     {
-        this.setCor (cor, preenchimento);
+       try
+       {
+          this.setCor (cor, preenchimento); 
+       }
+       catch (Exception e)
+       {
+           System.out.println("Valores de cores inválidos");
+       }
     }
     
     

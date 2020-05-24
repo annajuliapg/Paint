@@ -94,40 +94,47 @@ public class Retangulo extends Figura
 
     public Retangulo (String s) 
     {
-        StringTokenizer quebrador = new StringTokenizer(s,":");
+        try
+        {
+            StringTokenizer quebrador = new StringTokenizer(s,":");
 
-        quebrador.nextToken();
-        
-        int x[] = new int[4];
-        int y[] = new int[4];
+            quebrador.nextToken();
 
-        x[0] = Integer.parseInt(quebrador.nextToken());
-        y[0] = Integer.parseInt(quebrador.nextToken());
-        x[1] = Integer.parseInt(quebrador.nextToken());
-        y[1] = Integer.parseInt(quebrador.nextToken());
-        x[2] = Integer.parseInt(quebrador.nextToken());
-        y[2] = Integer.parseInt(quebrador.nextToken());
-        x[3] = Integer.parseInt(quebrador.nextToken());
-        y[3] = Integer.parseInt(quebrador.nextToken());
+            int x[] = new int[4];
+            int y[] = new int[4];
 
-        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),  // G
-                               Integer.parseInt(quebrador.nextToken())); // B
-        
-        Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                                         Integer.parseInt(quebrador.nextToken()),  // G
-                                         Integer.parseInt(quebrador.nextToken())); // B
-        
-        this.x[0] = x[0]; this.y[0] = y[0];
-        
-        this.x[1] = x[1]; this.y[1] = y[1];
-        
-        this.x[2] = x[2]; this.y[2] = y[2];
-        
-        this.x[3] = x[3]; this.y[3] = y[3];
-        
-        this.cor            = cor;
-        this.preenchimento  = preenchimento;
+            x[0] = Integer.parseInt(quebrador.nextToken());
+            y[0] = Integer.parseInt(quebrador.nextToken());
+            x[1] = Integer.parseInt(quebrador.nextToken());
+            y[1] = Integer.parseInt(quebrador.nextToken());
+            x[2] = Integer.parseInt(quebrador.nextToken());
+            y[2] = Integer.parseInt(quebrador.nextToken());
+            x[3] = Integer.parseInt(quebrador.nextToken());
+            y[3] = Integer.parseInt(quebrador.nextToken());
+
+            Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                   Integer.parseInt(quebrador.nextToken()),  // G
+                                   Integer.parseInt(quebrador.nextToken())); // B
+
+            Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                             Integer.parseInt(quebrador.nextToken()),  // G
+                                             Integer.parseInt(quebrador.nextToken())); // B
+
+            this.x[0] = x[0]; this.y[0] = y[0];
+
+            this.x[1] = x[1]; this.y[1] = y[1];
+
+            this.x[2] = x[2]; this.y[2] = y[2];
+
+            this.x[3] = x[3]; this.y[3] = y[3];
+
+            this.cor            = cor;
+            this.preenchimento  = preenchimento;
+        }
+        catch(Exception i)
+        {
+            System.out.println("Valores inválidos");
+        }
     }
 
     public void setP0 (int x, int y) 

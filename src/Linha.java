@@ -20,24 +20,31 @@ public class Linha extends Figura
 
     public Linha (String s)
     {
-        StringTokenizer quebrador = new StringTokenizer(s,":");
+        try
+        {
+            StringTokenizer quebrador = new StringTokenizer(s,":");
 
-        quebrador.nextToken();
+            quebrador.nextToken();
 
-        int   x1  = Integer.parseInt(quebrador.nextToken());
-        int   y1  = Integer.parseInt(quebrador.nextToken());
+            int   x1  = Integer.parseInt(quebrador.nextToken());
+            int   y1  = Integer.parseInt(quebrador.nextToken());
 
-        int   x2  = Integer.parseInt(quebrador.nextToken());
-        int   y2  = Integer.parseInt(quebrador.nextToken());
+            int   x2  = Integer.parseInt(quebrador.nextToken());
+            int   y2  = Integer.parseInt(quebrador.nextToken());
 
-        Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                               Integer.parseInt(quebrador.nextToken()),  // G
-                               Integer.parseInt(quebrador.nextToken())); // B
+            Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                   Integer.parseInt(quebrador.nextToken()),  // G
+                                   Integer.parseInt(quebrador.nextToken())); // B
 
-        this.p1  = new Ponto (x1,y1,cor);
-        this.p2  = new Ponto (x2,y2,cor);
-        
-        this.cor = cor;
+            this.p1  = new Ponto (x1,y1,cor);
+            this.p2  = new Ponto (x2,y2,cor);
+
+            this.cor = cor;
+        }
+        catch(Exception i)
+        {
+            System.out.println("Valores inválidos");
+        }
     }
 
     // setters
