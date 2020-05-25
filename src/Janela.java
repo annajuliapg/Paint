@@ -5,6 +5,7 @@ import javax.imageio.*;
 import java.io.*;
 import java.util.*;
 import javax.swing.filechooser.*;
+import say.swing.JFontChooser;
 
  
 public class Janela extends JFrame 
@@ -22,6 +23,7 @@ public class Janela extends JFrame
                       btnCor                = new JButton ("Cor"),
                       btnCorPreenchimento   = new JButton ("Cor Preenchimento"),
                       btnEscrever           = new JButton ("Escrever"),
+                      btnFonte              = new JButton ("Fonte Texto"),
                       btnAbrir              = new JButton ("Abrir"),
                       btnSalvar             = new JButton ("Salvar"),
                       btnApagar             = new JButton ("Apagar"),
@@ -59,7 +61,7 @@ public class Janela extends JFrame
     protected Figura temp = null; // figura temporária para os desenhos contínuos
     
     protected String stringTexto = null;
-    protected Font fonteTexto = new Font("Calibri", 0, 20); // nome da fonte, estilo, tamanho
+    protected Font fonteTexto = new Font ("Calibri", 0, 20);
     
     protected Vector<Figura> figuras = new Vector<Figura>();
 
@@ -186,6 +188,19 @@ public class Janela extends JFrame
                                            "Arquivo de imagem ausente",
                                            JOptionPane.WARNING_MESSAGE);
         }
+        
+        try
+        {
+            final Image btnFonteImg = ImageIO.read(getClass().getResource("resources/fonte.jpg"));
+            btnFonte.setIcon(new ImageIcon(btnFonteImg));
+        }
+        catch (final IOException e)
+        {
+            JOptionPane.showMessageDialog (null,
+                                           "Arquivo fonte.jpg não foi encontrado",
+                                           "Arquivo de imagem ausente",
+                                           JOptionPane.WARNING_MESSAGE);
+        }
                 
         try
         {
@@ -248,7 +263,8 @@ public class Janela extends JFrame
         btnPoligono.addActionListener (new DesenhoDePoligono());
         btnFinalizaPoligono.addActionListener (new FinalizaPoligono());
         
-        btnEscrever.addActionListener (new EscreverTexto ());    
+        btnEscrever.addActionListener (new EscreverTexto ());
+        btnFonte.addActionListener (new EscolherFonteTexto ());
         
         btnCor.addActionListener (new EscolherCor ());
         btnCorPreenchimento.addActionListener (new EscolherCorPreenchimento ());
@@ -263,7 +279,7 @@ public class Janela extends JFrame
         
         
         final JPanel pnlBotoesDesenho = new JPanel();
-        final GridLayout grdBotoesDesenho = new GridLayout(11,1); 
+        final GridLayout grdBotoesDesenho = new GridLayout(12,1); 
         pnlBotoesDesenho.setLayout (grdBotoesDesenho);
 
         pnlBotoesDesenho.add (btnPonto);
@@ -275,6 +291,7 @@ public class Janela extends JFrame
         pnlBotoesDesenho.add (btnPoligono);     
         
         pnlBotoesDesenho.add (btnEscrever);
+        pnlBotoesDesenho.add (btnFonte);
         
         pnlBotoesDesenho.add (btnCor);
         pnlBotoesDesenho.add (btnCorPreenchimento);
@@ -433,23 +450,7 @@ public class Janela extends JFrame
                                     p1 = new Ponto (e.getX(), e.getY(), corAtual);
 
                                     esperaFimRetangulo = true;
-                                }                                                                                     
-                                    else
-                                        if(esperaInicioTexto)
-                                        {                                         
-                                                p1 = new Ponto (e.getX(), e.getY(), corAtual);
-                                                
-                                                esperaInicioTexto = false;
-                                                
-                                                stringTexto = JOptionPane.showInputDialog(null, "Texto:", "Escrever", JOptionPane.PLAIN_MESSAGE);
-                                                
-                                                figuras.add (new Texto(p1.getX(), p1.getY(), stringTexto, corAtual, fonteTexto));
-                                                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                                                
-                                                esperaInicioTexto = true;                                                
-                                                
-                                        }
-        
+                                }        
         }
                 
         public void mouseReleased (final MouseEvent e)
@@ -665,7 +666,21 @@ public class Janela extends JFrame
                         btnFinalizaPoligono.setVisible(true);
                         statusVertices.setVisible(true);                        
                     }
-                }              
+                }
+                else
+                    if(esperaInicioTexto)
+                    {                                         
+                        p1 = new Ponto (e.getX(), e.getY(), corAtual);
+                                                
+                        esperaInicioTexto = false;
+                        
+                        stringTexto = JOptionPane.showInputDialog(null, "Texto:", "Escrever", JOptionPane.PLAIN_MESSAGE);
+                                                
+                        figuras.add (new Texto(p1.getX(), p1.getY(), stringTexto, corAtual, fonteTexto));
+                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                                                
+                        esperaInicioTexto = true;                         
+                    }
         }
         
         public void mouseEntered (final MouseEvent e)
@@ -1069,7 +1084,54 @@ public class Janela extends JFrame
               
             esperaInicioTexto         = true;            
             
-            statusBar1.setText("Dica: clique onde deseja escrever o texto");
+            statusBar1.setText("Dica: clique onde deseja escrever o texto");           
+        }
+    }
+            
+    private class EscolherFonteTexto extends JFrame implements ActionListener
+    {
+        public void actionPerformed (ActionEvent e)    
+        {
+            if(esperaFimPoligono)
+               FinalizaPol();
+              else
+              if(esperaInicioPoligono)
+              {
+                statusFinalizaPol.setVisible(false);
+                btnFinalizaPoligono.setVisible(false);
+                statusVertices.setVisible(false);
+              }
+            
+            esperaPonto               = false;
+              
+            esperaInicioReta          = false;
+            esperaFimReta             = false;
+              
+            esperaCentroCirculo       = false;
+            esperaRaioCirculo         = false;
+             
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
+              
+            esperaInicioQuadrado      = false;
+            esperaFimQuadrado         = false;
+              
+            esperaInicioRetangulo     = false;
+            esperaFimRetangulo        = false;
+            
+            esperaInicioPoligono      = false;
+            esperaFimPoligono         = false;
+              
+            esperaInicioTexto         = false;
+            
+            JFontChooser fontChooser = new JFontChooser();
+                        
+            int result = fontChooser.showDialog(Janela.this);
+                        
+            if (result == JFontChooser.OK_OPTION)
+                fonteTexto = fontChooser.getSelectedFont();
+            
+            statusBar1.setText("Dica: clique no botão do que deseja desenhar");          
         }
     }
     
@@ -1264,7 +1326,19 @@ public class Janela extends JFrame
               
             esperaInicioTexto         = false;
             
-            Salvar();
+            try
+            {
+                Salvar();
+            }
+            catch (ArrayIndexOutOfBoundsException erro)
+            {
+                JOptionPane.showMessageDialog (null,
+                                               "Não há nada para salvar!",
+                                               "Tela Limpa",
+                                               JOptionPane.WARNING_MESSAGE);
+            }
+            
+            statusBar1.setText("Dica: clique no botão do que deseja desenhar");         
         }
     }
     
@@ -1308,31 +1382,60 @@ public class Janela extends JFrame
         }
     }
     
-    public void Salvar() 
+    public void Salvar() throws ArrayIndexOutOfBoundsException
     {
+       if(figuras.isEmpty()) throw new ArrayIndexOutOfBoundsException ("Sem desenho na tela");  
+        
        JFileChooser chooser = new JFileChooser();
     
        FileNameExtensionFilter filter = new FileNameExtensionFilter("Paint Files", "paint", ".paint");
     
        chooser.setFileFilter(filter);
-    
+               
        int returnVal = chooser.showSaveDialog(Janela.this);
-    
+
        if(returnVal == JFileChooser.APPROVE_OPTION) 
-       {
-          try
-          {
+       {           
+           try
+           {
             String arquivo = chooser.getSelectedFile().getPath();
+            
+            String nomeArquivo = chooser.getSelectedFile().getName();
             
             if(!arquivo.endsWith(".paint"))
                 arquivo+=".paint";
-                
-            PrintWriter arq = new PrintWriter (new FileWriter (arquivo));
-                
-            for (Figura f : this.figuras)
-                 arq.println (f);
             
-            arq.close();
+            File teste = new File (arquivo);
+            
+            int resposta = 0; //sim = 0 não == 1
+                        
+            if(teste.exists())
+            {
+                resposta = JOptionPane.showConfirmDialog(null, "Deseja substituí-lo?", "Esse nome de arquivo já existe", JOptionPane.YES_NO_OPTION);
+            }            
+            
+            if (resposta == 0) // caso sim o arquivo é salvo
+            {
+                PrintWriter arq = new PrintWriter (new FileWriter (arquivo));
+                
+                for (Figura f : this.figuras)
+                     arq.println (f);
+
+                arq.close();
+                
+                JOptionPane.showMessageDialog (null,
+                                               "Desenho salvo como: " + nomeArquivo + ".paint",
+                                               "Salvo",
+                                               JOptionPane.INFORMATION_MESSAGE);
+                
+            }
+            else
+            {
+                JOptionPane.showMessageDialog (null,
+                                               "Desenho não salvo, tente novamente com outro nome",
+                                               "Atenção",
+                                               JOptionPane.WARNING_MESSAGE);
+            }
             
            }
            catch (Exception e)
