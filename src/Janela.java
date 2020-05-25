@@ -1257,8 +1257,7 @@ public class Janela extends JFrame
             
             corAtual = cor;
             
-            statusBar1.setText("Dica: clique no botão do que deseja desenhar");
-            
+            statusBar1.setText("Dica: clique no botão do que deseja desenhar");            
         }
     }
     
