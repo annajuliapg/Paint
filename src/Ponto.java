@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.*;
+import javax.swing.JOptionPane;
  
 public class Ponto extends Figura
 {
@@ -13,7 +14,8 @@ public class Ponto extends Figura
     public Ponto (int x, int y, Color cor)
     {
         super (cor);
-
+        
+        //para ter sempre valores positivos
         this.x = Math.abs (x);
         this.y = Math.abs (y);
     }
@@ -26,17 +28,27 @@ public class Ponto extends Figura
 
             quebrador.nextToken();
 
-            this.x = Integer.parseInt(quebrador.nextToken());
-            this.y = Integer.parseInt(quebrador.nextToken());
+            this.x = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            this.y = Math.abs(Integer.parseInt(quebrador.nextToken()));
 
             this.cor = new Color (Integer.parseInt(quebrador.nextToken()),   // R
                                   Integer.parseInt(quebrador.nextToken()),   // G
                                   Integer.parseInt(quebrador.nextToken()));  // B
         }
-        catch(Exception i)
+        catch(NumberFormatException i)
         {
-            System.out.println("Valores inválidos");
+            JOptionPane.showMessageDialog (null,
+                                               "Os valores no arquivo são inválidos",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
         }
+        catch (IllegalArgumentException e)
+        {
+           JOptionPane.showMessageDialog (null,
+                                               "Pelo menos um dos valores das cores é inválido",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }        
     }
 
     // setters

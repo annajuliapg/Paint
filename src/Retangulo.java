@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class Retangulo extends Figura 
 {
@@ -103,14 +104,14 @@ public class Retangulo extends Figura
             int x[] = new int[4];
             int y[] = new int[4];
 
-            x[0] = Integer.parseInt(quebrador.nextToken());
-            y[0] = Integer.parseInt(quebrador.nextToken());
-            x[1] = Integer.parseInt(quebrador.nextToken());
-            y[1] = Integer.parseInt(quebrador.nextToken());
-            x[2] = Integer.parseInt(quebrador.nextToken());
-            y[2] = Integer.parseInt(quebrador.nextToken());
-            x[3] = Integer.parseInt(quebrador.nextToken());
-            y[3] = Integer.parseInt(quebrador.nextToken());
+            x[0] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            y[0] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            x[1] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            y[1] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            x[2] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            y[2] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            x[3] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            y[3] = Math.abs(Integer.parseInt(quebrador.nextToken()));
 
             Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                    Integer.parseInt(quebrador.nextToken()),  // G
@@ -118,7 +119,8 @@ public class Retangulo extends Figura
 
             Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                              Integer.parseInt(quebrador.nextToken()),  // G
-                                             Integer.parseInt(quebrador.nextToken())); // B
+                                             Integer.parseInt(quebrador.nextToken()),  // B
+                                             Integer.parseInt(quebrador.nextToken())); // Alpha
 
             this.x[0] = x[0]; this.y[0] = y[0];
 
@@ -131,26 +133,48 @@ public class Retangulo extends Figura
             this.cor            = cor;
             this.preenchimento  = preenchimento;
         }
-        catch(Exception i)
+        catch(NumberFormatException i)
         {
-            System.out.println("Valores inválidos");
+            JOptionPane.showMessageDialog (null,
+                                               "Os valores no arquivo são inválidos",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }
+        catch (IllegalArgumentException e)
+        {
+           JOptionPane.showMessageDialog (null,
+                                               "Pelo menos um dos valores das cores é inválido",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    public void setP0 (int x, int y) 
+    //setters
+    public void setVetorX (int X[])
     {
-        this.x[0] = x;
-        this.y[0] = y;
+       for(int i = 0; i < 4; i++)
+        {
+            this.x[i] = X[i];
+        }      
     }
     
-    public int getXP0 ()
+    public void setVetorY (int Y[])
     {
-        return this.x[0];
+       for(int i = 0; i < 4; i++)
+        {
+            this.y[i] = Y[i];
+        }      
     }
     
-    public int getYP0 ()
-    {
-        return this.y[0];
+    //getters    
+    public int[] getVetorX ()
+    {        
+        return this.x;
+    }
+    
+    public int[] getVetorY ()
+    {        
+        return this.y;
     }        
 
     public void torneSeVisivel (Graphics g) 
@@ -192,8 +216,10 @@ public class Retangulo extends Figura
                this.getPreenchimento().getRed() +
                 ":" +
                this.getPreenchimento().getGreen() + 
-                ":" +
-               this.getPreenchimento().getBlue();
+               ":" +
+               this.getPreenchimento().getBlue() +
+               ":" +
+               this.getPreenchimento().getAlpha();
     }
    
 }

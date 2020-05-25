@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.*;
+import javax.swing.JOptionPane;
  
 public class Circulo extends Figura
 {
@@ -32,7 +33,7 @@ public class Circulo extends Figura
             int   x  = Integer.parseInt(quebrador.nextToken());
             int   y  = Integer.parseInt(quebrador.nextToken());
 
-            int   raio  = Integer.parseInt(quebrador.nextToken());
+            int   raio  = Math.abs(Integer.parseInt(quebrador.nextToken()));
 
             Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                    Integer.parseInt(quebrador.nextToken()),  // G
@@ -40,9 +41,8 @@ public class Circulo extends Figura
 
             Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                              Integer.parseInt(quebrador.nextToken()),  // G
-                                             Integer.parseInt(quebrador.nextToken())); // B
-
-
+                                             Integer.parseInt(quebrador.nextToken()),  // B
+                                             Integer.parseInt(quebrador.nextToken())); // Alpha
 
             this.centro  = new Ponto (x,y);
             this.raio  = raio;
@@ -50,9 +50,19 @@ public class Circulo extends Figura
             this.cor = cor;
             this.preenchimento = preenchimento;
         }
-        catch(Exception i)
+        catch(NumberFormatException i)
         {
-            System.out.println("Valores inválidos");
+            JOptionPane.showMessageDialog (null,
+                                               "Os valores no arquivo são inválidos",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }
+        catch (IllegalArgumentException e)
+        {
+           JOptionPane.showMessageDialog (null,
+                                               "Pelo menos um dos valores das cores é inválido",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -110,6 +120,8 @@ public class Circulo extends Figura
                ":" +
                this.getPreenchimento().getGreen() +
                ":" +
-               this.getPreenchimento().getBlue();
+               this.getPreenchimento().getBlue() +
+               ":" +
+               this.getPreenchimento().getAlpha();
     }
 }

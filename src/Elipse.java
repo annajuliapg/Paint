@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.*;
+import javax.swing.JOptionPane;
  
 public class Elipse extends Figura
 {
@@ -66,8 +67,8 @@ public class Elipse extends Figura
             int   x2  = Integer.parseInt(quebrador.nextToken());
             int   y2  = Integer.parseInt(quebrador.nextToken());
 
-            int   largura  = Integer.parseInt(quebrador.nextToken());
-            int   altura  = Integer.parseInt(quebrador.nextToken());
+            int   largura  = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            int   altura  = Math.abs(Integer.parseInt(quebrador.nextToken()));
 
             Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                    Integer.parseInt(quebrador.nextToken()),  // G
@@ -75,7 +76,8 @@ public class Elipse extends Figura
 
             Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                              Integer.parseInt(quebrador.nextToken()),  // G
-                                             Integer.parseInt(quebrador.nextToken())); // B        
+                                             Integer.parseInt(quebrador.nextToken()),  // B
+                                             Integer.parseInt(quebrador.nextToken())); // Alpha        
 
             this.p1 = new Ponto (x1,y1);
             this.p2 = new Ponto (x2,y2);
@@ -86,9 +88,19 @@ public class Elipse extends Figura
             this.cor = cor;
             this.preenchimento = preenchimento;
         }
-        catch(Exception i)
+        catch(NumberFormatException i)
         {
-            System.out.println("Valores inválidos");
+            JOptionPane.showMessageDialog (null,
+                                               "Os valores no arquivo são inválidos",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }
+        catch (IllegalArgumentException e)
+        {
+           JOptionPane.showMessageDialog (null,
+                                               "Pelo menos um dos valores das cores é inválido",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -147,9 +159,6 @@ public class Elipse extends Figura
         g.drawOval(this.p1.getX(), this.p1.getY(),   // ponto x1,y1
                    this.largura,                     // largura
                    this.altura);                     // altura
-        
-        
-      
     }
 
     public String toString()
@@ -177,7 +186,8 @@ public class Elipse extends Figura
                ":" +
                this.getPreenchimento().getGreen() +
                ":" +
-               this.getPreenchimento().getBlue();
-                
+               this.getPreenchimento().getBlue() +
+               ":" +
+               this.getPreenchimento().getAlpha();                
     }
 }

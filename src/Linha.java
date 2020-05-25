@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.*;
+import javax.swing.JOptionPane;
  
 public class Linha extends Figura
 {
@@ -41,9 +42,19 @@ public class Linha extends Figura
 
             this.cor = cor;
         }
-        catch(Exception i)
+        catch(NumberFormatException i)
         {
-            System.out.println("Valores inválidos");
+            JOptionPane.showMessageDialog (null,
+                                               "Os valores no arquivo são inválidos",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }
+        catch (IllegalArgumentException e)
+        {
+           JOptionPane.showMessageDialog (null,
+                                               "Pelo menos um dos valores das cores é inválido",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
         }
     }
 

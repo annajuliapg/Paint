@@ -1,8 +1,9 @@
 import java.awt.*;
 import java.util.*;
+import javax.swing.JOptionPane;
  
-public class Texto extends Figura {
-    
+public class Texto extends Figura 
+{    
     protected Ponto posição;
     
     protected String texto;
@@ -31,8 +32,8 @@ public class Texto extends Figura {
 
             quebrador.nextToken();
 
-            int   x   = Integer.parseInt(quebrador.nextToken());
-            int   y   = Integer.parseInt(quebrador.nextToken());
+            int   x   = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            int   y   = Math.abs(Integer.parseInt(quebrador.nextToken()));
 
             String texto = quebrador.nextToken();
 
@@ -53,12 +54,22 @@ public class Texto extends Figura {
 
             this.fonte = fonte;
         }
-        catch(Exception i)
+        catch(NumberFormatException i)
         {
-            System.out.println("Valores inválidos");
-        }    
+            JOptionPane.showMessageDialog (null,
+                                               "Os valores no arquivo são inválidos",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }catch (IllegalArgumentException e)
+        {
+           JOptionPane.showMessageDialog (null,
+                                               "Pelo menos um dos valores das cores é inválido",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }   
     }
  
+    //setters
     public void setPosicao (int x, int y) 
     {
         this.posição = new Ponto (x,y,this.getCor());
@@ -68,7 +79,8 @@ public class Texto extends Figura {
     {
         this.texto = texto;
     }
-       
+    
+    //getters
     public Ponto getPosicao () 
     {
         return this.posição;

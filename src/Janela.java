@@ -386,7 +386,7 @@ public class Janela extends JFrame
                 }
                 catch (Exception x)
                 {
-                    statusBar1.setText(x.getMessage());
+                    System.out.println(x.getMessage());
                 }
                 
             }
@@ -403,7 +403,7 @@ public class Janela extends JFrame
                     }
                     catch (Exception x)
                     {
-                        statusBar1.setText(x.getMessage());
+                        System.out.println(x.getMessage());
                     }
                  }
                  else
@@ -419,38 +419,59 @@ public class Janela extends JFrame
                         }
                         catch (Exception x)
                         {
-                            statusBar1.setText(x.getMessage());
+                            System.out.println(x.getMessage());
                         }
                     }			
                     else
                         if(esperaInicioElipse)
                         {
-                            esperaInicioElipse = false;
-                                        
-                            p1 = new Ponto (e.getX(), e.getY(), corAtual);
-                                        
-                            esperaFimElipse = true;                                        
+                            try
+                            {
+                                esperaInicioElipse = false;
+
+                                p1 = new Ponto (e.getX(), e.getY(), corAtual);
+
+                                esperaFimElipse = true;
+                            }
+                            catch (Exception x)
+                            {
+                                System.out.println(x.getMessage());
+                            }
                                         
                         }
                         else
                             if(esperaInicioQuadrado)
                             {                                               
-                                esperaInicioQuadrado = false;
-                                            
-                                p1 = new Ponto (e.getX(), e.getY(), corAtual);
-                                            
-                                esperaFimQuadrado = true;                                                                                   
+                                try
+                                {
+                                    esperaInicioQuadrado = false;
+
+                                    p1 = new Ponto (e.getX(), e.getY(), corAtual);
+
+                                    esperaFimQuadrado = true;
+                                }
+                                catch (Exception x)
+                                {
+                                    System.out.println(x.getMessage());
+                                }
                                                                                                                               
                             }
                             else
                                 if(esperaInicioRetangulo)
                                 {
-                                    esperaInicioRetangulo = false;
-                                            
-                                    p1 = new Ponto (e.getX(), e.getY(), corAtual);
+                                    try
+                                    {
+                                        esperaInicioRetangulo = false;
 
-                                    esperaFimRetangulo = true;
-                                }        
+                                        p1 = new Ponto (e.getX(), e.getY(), corAtual);
+
+                                        esperaFimRetangulo = true;
+                                    }
+                                    catch (Exception x)
+                                    {
+                                        System.out.println(x.getMessage());
+                                    }
+                                }       
         }
                 
         public void mouseReleased (final MouseEvent e)
@@ -471,7 +492,7 @@ public class Janela extends JFrame
                 }
                 catch (Exception x)
                 {
-                    statusBar1.setText(x.getMessage());
+                    System.out.println(x.getMessage());
                 }
             }
             else
@@ -481,8 +502,9 @@ public class Janela extends JFrame
                     {
                         esperaRaioCirculo = false;
 
-                        final int raio = (int) (Math.abs (Math.round (Math.sqrt (
-                        Math.pow (e.getY() - p1.getY(),2) + Math.pow (e.getX() - p1.getX(),2)))));
+                        //math.abs traz o módulo
+                        final int raio = (int) Math.abs (Math.round (Math.sqrt(Math.pow 
+                                         (e.getY() - p1.getY(),2) + Math.pow (e.getX() - p1.getX(),2))));
 
                         figuras.add (new Circulo(p1.getX(), p1.getY(), raio, corAtual, corAtualPreenchimento));
                         figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
@@ -494,51 +516,73 @@ public class Janela extends JFrame
                     }
                     catch (Exception x)
                     {
-                        statusBar1.setText(x.getMessage());
+                        System.out.println(x.getMessage());
                     }
 		}
                 else
                     if(esperaFimElipse)
                     {
-                        esperaFimElipse = false;
-                                                                                
-                        final int largura = Math.abs ((int)(e.getX() - p1.getX())); // modulo
-                        final int altura = Math.abs ((int)(e.getY() - p1.getY()));  // modulo
-                                                                            
-                        figuras.add (new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtual, corAtualPreenchimento));
-                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                                        
-                        statusBar1.setText("Dica: clique em um canto da elipse e arraste o mouse");
-                         
-                        temp = null;
-                        esperaInicioElipse = true;
+                        try
+                        {
+                            esperaFimElipse = false;
+
+                            //math.abs traz o módulo
+                            final int largura = Math.abs ((int)(e.getX() - p1.getX()));
+                            final int altura = Math.abs ((int)(e.getY() - p1.getY()));
+
+                            figuras.add (new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtual, corAtualPreenchimento));
+                            figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+
+                            statusBar1.setText("Dica: clique em um canto da elipse e arraste o mouse");
+
+                            temp = null;
+                            esperaInicioElipse = true;
+                        }
+                        catch (Exception x)
+                        {
+                            System.out.println(x.getMessage());
+                        }
                     }
                     else
                         if(esperaFimQuadrado)
                         {
-                            esperaFimQuadrado = false;
-                                                
-                            figuras.add (new Quadrado(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento));
-                            figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                            try
+                            {
+                                esperaFimQuadrado = false;
 
-                            statusBar1.setText("Dica: clique em um ponto do quadrado e arraste o mouse");
-                             
-                            temp = null;
-                            esperaInicioQuadrado = true; 
+                                figuras.add (new Quadrado(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento));
+                                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+
+                                statusBar1.setText("Dica: clique em um ponto do quadrado e arraste o mouse");
+
+                                temp = null;
+                                esperaInicioQuadrado = true;
+                            }
+                            catch (Exception x)
+                            {
+                                System.out.println(x.getMessage());
+                            }
                         }
                         else
                             if(esperaFimRetangulo)
                             {
-                                esperaFimRetangulo = false;
-                                                
-                                figuras.add (new Retangulo(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento));
-                                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+                                try
+                                {
+                                    esperaFimRetangulo = false;
 
-                                statusBar1.setText("Dica: clique em um ponto do retangulo e arraste o mouse");
-                                
-                                temp = null;
-                                esperaInicioRetangulo = true;
-                            }                    
+                                    figuras.add (new Retangulo(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento));
+                                    figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+
+                                    statusBar1.setText("Dica: clique em um ponto do retangulo e arraste o mouse");
+
+                                    temp = null;
+                                    esperaInicioRetangulo = true;
+                                }
+                                catch (Exception x)
+                                {
+                                    System.out.println(x.getMessage());
+                                }
+                            }                  
         }
         
         public void mouseDragged(final MouseEvent e)
@@ -555,7 +599,7 @@ public class Janela extends JFrame
                 }
                 catch (Exception x)
                 {
-                    statusBar1.setText(x.getMessage());
+                    System.out.println(x.getMessage());
                 }
             }
             else
@@ -563,8 +607,9 @@ public class Janela extends JFrame
                 {
                     try
                     {                  
-                        int raio = (int)(Math.round ( Math.sqrt (
-                        Math.pow (e.getY() - p1.getY(),2) + Math.pow (e.getX() - p1.getX(),2))));
+                        //math.abs traz o módulo
+                        int raio = (int) Math.abs (Math.round (Math.sqrt(Math.pow 
+                                   (e.getY() - p1.getY(),2) + Math.pow (e.getX() - p1.getX(),2))));
 
                         temp = new Circulo(p1.getX(), p1.getY(), raio, corAtual, corAtualPreenchimento);
 
@@ -574,38 +619,60 @@ public class Janela extends JFrame
                     }
                     catch (Exception x)
                     {
-                        statusBar1.setText(x.getMessage());
+                        System.out.println(x.getMessage());
                     }
                 }
                 else
                     if(esperaFimElipse)
                     {
-                        int largura = Math.abs ((int)(e.getX() - p1.getX())); // modulo
-                        int altura = Math.abs ((int)(e.getY() - p1.getY()));  // modulo
-                                        
-                        temp = new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtual, corAtualPreenchimento);
+                        try
+                        {
+                            //math.abs traz o módulo
+                            int largura = Math.abs ((int)(e.getX() - p1.getX()));
+                            int altura = Math.abs ((int)(e.getY() - p1.getY()));
 
-                        repaint (); 
-                                                                
-                        statusBar1.setText("Dica: solte o mouse no canto final da elipse");
+                            temp = new Elipse(p1.getX(), p1.getY(), e.getX(), e.getY(), largura, altura, corAtual, corAtualPreenchimento);
+
+                            repaint (); 
+
+                            statusBar1.setText("Dica: solte o mouse no canto final da elipse");
+                        }
+                        catch (Exception x)
+                        {
+                            System.out.println(x.getMessage());
+                        }
                     }
                     else
                         if(esperaFimQuadrado)
                         {
-                           temp = new Quadrado(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento);
-                           
-                           repaint (); 
-                                                                
-                           statusBar1.setText("Dica: solte o mouse no canto final do quadrado");
+                            try
+                            {
+                               temp = new Quadrado(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento);
+
+                               repaint (); 
+
+                               statusBar1.setText("Dica: solte o mouse no canto final do quadrado");
+                            }
+                            catch (Exception x)
+                            {
+                                System.out.println(x.getMessage());
+                            }
                         }
                         else
                             if(esperaFimRetangulo)
                             {
-                                temp = new Retangulo(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento);
-                           
-                                repaint (); 
+                                try
+                                {
+                                    temp = new Retangulo(p1.getX(), p1.getY(), e.getX(), e.getY(), corAtual, corAtualPreenchimento);
 
-                                statusBar1.setText("Dica: solte o mouse no canto final do retangulo");
+                                    repaint (); 
+
+                                    statusBar1.setText("Dica: solte o mouse no canto final do retangulo");
+                                }
+                                catch (Exception x)
+                                {
+                                    System.out.println(x.getMessage());
+                                }
                             }
         }
         
@@ -633,7 +700,7 @@ public class Janela extends JFrame
                 }
                 catch (Exception x)
                 {
-                    statusBar1.setText(x.getMessage());
+                    System.out.println(x.getMessage());
                 }
             }
             else
@@ -666,20 +733,31 @@ public class Janela extends JFrame
                         btnFinalizaPoligono.setVisible(true);
                         statusVertices.setVisible(true);                        
                     }
+                    catch (Exception x)
+                    {
+                        System.out.println(x.getMessage());
+                    }
                 }
                 else
                     if(esperaInicioTexto)
                     {                                         
-                        p1 = new Ponto (e.getX(), e.getY(), corAtual);
-                                                
-                        esperaInicioTexto = false;
-                        
-                        stringTexto = JOptionPane.showInputDialog(null, "Texto:", "Escrever", JOptionPane.PLAIN_MESSAGE);
-                                                
-                        figuras.add (new Texto(p1.getX(), p1.getY(), stringTexto, corAtual, fonteTexto));
-                        figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
-                                                
-                        esperaInicioTexto = true;                         
+                        try
+                        {
+                            p1 = new Ponto (e.getX(), e.getY(), corAtual);
+
+                            esperaInicioTexto = false;
+
+                            stringTexto = JOptionPane.showInputDialog(null, "Texto:", "Escrever", JOptionPane.PLAIN_MESSAGE);
+
+                            figuras.add (new Texto(p1.getX(), p1.getY(), stringTexto, corAtual, fonteTexto));
+                            figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+
+                            esperaInicioTexto = true;
+                        }
+                        catch (Exception x)
+                        {
+                            System.out.println(x.getMessage());
+                        }
                     }
         }
         
@@ -1006,49 +1084,49 @@ public class Janela extends JFrame
     private void FinalizaPol () // para usar sem o clique, pode chamar em qq outro metodo
     {
         try
-            {
-                esperaPonto               = false;
+        {
+            esperaPonto               = false;
 
-                esperaInicioReta          = false;
-                esperaFimReta             = false;
+            esperaInicioReta          = false;
+            esperaFimReta             = false;
 
-                esperaCentroCirculo       = false;
-                esperaRaioCirculo         = false;
+            esperaCentroCirculo       = false;
+            esperaRaioCirculo         = false;
 
-                esperaInicioElipse        = false;
-                esperaFimElipse           = false;
+            esperaInicioElipse        = false;
+            esperaFimElipse           = false;
 
-                esperaInicioQuadrado      = false;
-                esperaFimQuadrado         = false;
+            esperaInicioQuadrado      = false;
+            esperaFimQuadrado         = false;
 
-                esperaInicioRetangulo     = false;
-                esperaFimRetangulo        = false;
+            esperaInicioRetangulo     = false;
+            esperaFimRetangulo        = false;
 
-                esperaInicioPoligono      = false;
-                esperaFimPoligono         = false;            
+            esperaInicioPoligono      = false;
+            esperaFimPoligono         = false;            
 
-                esperaInicioTexto         = false;
+            esperaInicioTexto         = false;
 
-                figuras.add (new Poligono(x, y, numVertices, corAtual, corAtualPreenchimento));
-                figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
+            figuras.add (new Poligono(x, y, numVertices, corAtual, corAtualPreenchimento));
+            figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
 
-                statusBar1.setText("Dica: clique no vertice inical do poligono");
-                statusVertices.setText("  Número de Vértices: 0");
+            statusBar1.setText("Dica: clique no vertice inical do poligono");
+            statusVertices.setText("  Número de Vértices: 0");
 
-                temp = null;
+            temp = null;
 
-                statusFinalizaPol.setVisible(false);
-                btnFinalizaPoligono.setVisible(false);
-                statusVertices.setVisible(false);
-            }
-            catch (Exception x)
-            {
-                statusBar1.setText(x.getMessage());
-            }
+            statusFinalizaPol.setVisible(false);
+            btnFinalizaPoligono.setVisible(false);
+            statusVertices.setVisible(false);
+        }
+        catch (Exception x)
+        {
+            System.out.println(x.getMessage());
+        }
         
     }
     
-    private class EscreverTexto extends JFrame implements ActionListener
+    private class EscreverTexto implements ActionListener
     {
         public void actionPerformed (ActionEvent e)    
         {
@@ -1088,7 +1166,7 @@ public class Janela extends JFrame
         }
     }
             
-    private class EscolherFonteTexto extends JFrame implements ActionListener
+    private class EscolherFonteTexto implements ActionListener
     {
         public void actionPerformed (ActionEvent e)    
         {
@@ -1280,10 +1358,14 @@ public class Janela extends JFrame
             }
             catch (ArrayIndexOutOfBoundsException erro)
             {
+                figuras.clear();
+                
                 JOptionPane.showMessageDialog (null,
                                                "Não há nada para apagar!",
                                                "Tela Limpa",
                                                JOptionPane.WARNING_MESSAGE);
+                
+                
             }
                        
            
@@ -1407,7 +1489,7 @@ public class Janela extends JFrame
             
             File teste = new File (arquivo);
             
-            int resposta = 0; //sim = 0 não == 1
+            int resposta = 0; //sim = 0 não = 1
                         
             if(teste.exists())
             {
@@ -1504,8 +1586,6 @@ public class Janela extends JFrame
                         case 't':
                         this.figuras.add(new Texto (linhaTexto));
                         break;
-
-                        // falta o circulo, elispe, quadrado, retangulo, poligono e texto
                     }
 
                     this.figuras.get (this.figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());

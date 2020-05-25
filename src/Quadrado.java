@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class Quadrado extends Figura 
 {
@@ -22,6 +23,7 @@ public class Quadrado extends Figura
     {
         super(cor, preenchimento);
         
+        //math.abs traz o módulo
         if(Math.abs(x2 - x1) < Math.abs(y2 - y1))
         {
            this.lado = (int)Math.abs(x2 - x1);
@@ -29,8 +31,7 @@ public class Quadrado extends Figura
         else
         {
            this.lado = (int)Math.abs(y2 - y1);
-        }
-                       
+        }                       
 
         if(x2 < x1)
         {
@@ -114,14 +115,14 @@ public class Quadrado extends Figura
             int x[] = new int[4];
             int y[] = new int[4];
 
-            x[0] = Integer.parseInt(quebrador.nextToken());
-            y[0] = Integer.parseInt(quebrador.nextToken());
-            x[1] = Integer.parseInt(quebrador.nextToken());
-            y[1] = Integer.parseInt(quebrador.nextToken());
-            x[2] = Integer.parseInt(quebrador.nextToken());
-            y[2] = Integer.parseInt(quebrador.nextToken());
-            x[3] = Integer.parseInt(quebrador.nextToken());
-            y[3] = Integer.parseInt(quebrador.nextToken());
+            x[0] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            y[0] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            x[1] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            y[1] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            x[2] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            y[2] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            x[3] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+            y[3] = Math.abs(Integer.parseInt(quebrador.nextToken()));
 
             int   lado   = Integer.parseInt(quebrador.nextToken());
 
@@ -131,7 +132,8 @@ public class Quadrado extends Figura
 
             Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                              Integer.parseInt(quebrador.nextToken()),  // G
-                                             Integer.parseInt(quebrador.nextToken())); // B
+                                             Integer.parseInt(quebrador.nextToken()),  // B
+                                             Integer.parseInt(quebrador.nextToken())); // Alpha
 
             this.x[0] = x[0]; this.y[0] = y[0];
 
@@ -146,17 +148,37 @@ public class Quadrado extends Figura
             this.cor            = cor;
             this.preenchimento  = preenchimento;
         }
-        catch(Exception i)
+        catch(NumberFormatException i)
         {
-            System.out.println("Valores inválidos");
+            JOptionPane.showMessageDialog (null,
+                                               "Os valores no arquivo são inválidos",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }
+        catch (IllegalArgumentException e)
+        {
+           JOptionPane.showMessageDialog (null,
+                                               "Pelo menos um dos valores das cores é inválido",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    //setters
-    public void setP0 (int x, int y) 
+    //setters    
+    public void setVetorX (int X[])
     {
-        this.x[0] = x;
-        this.y[0] = y;
+       for(int i = 0; i < 4; i++)
+        {
+            this.x[i] = X[i];
+        }      
+    }
+    
+    public void setVetorY (int Y[])
+    {
+       for(int i = 0; i < 4; i++)
+        {
+            this.y[i] = Y[i];
+        }      
     }
     
     public void setLado (int lado)
@@ -164,15 +186,15 @@ public class Quadrado extends Figura
         this.lado = lado;
     }
     
-    //getters
-    public int getXP0 ()
-    {
-        return this.x[0];
+    //getters    
+    public int[] getVetorX ()
+    {        
+        return this.x;
     }
     
-    public int getYP0 ()
-    {
-        return this.y[0];
+    public int[] getVetorY ()
+    {        
+        return this.y;
     }
     
     public int getLado ()
@@ -191,7 +213,9 @@ public class Quadrado extends Figura
         g.drawPolygon (x, y, 4);
     }
 
-    public String toString() {
+    public String toString() 
+    {
+        
         return "q:" +
                this.x[0] +
                ":" +
@@ -220,8 +244,9 @@ public class Quadrado extends Figura
                this.getPreenchimento().getRed() +
                 ":" +
                this.getPreenchimento().getGreen() + 
-                ":" +
-               this.getPreenchimento().getBlue();
-    }
-   
+               ":" +
+               this.getPreenchimento().getBlue() +
+               ":" +
+               this.getPreenchimento().getAlpha();
+    }  
 }

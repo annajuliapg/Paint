@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.*;
+import javax.swing.JOptionPane;
  
 public class Poligono extends Figura
 {
@@ -36,24 +37,25 @@ public class Poligono extends Figura
 
             quebrador.nextToken();
 
-            int   numVert   = Integer.parseInt(quebrador.nextToken());
+            int   numVert = Math.abs(Integer.parseInt(quebrador.nextToken()));
 
             int x [] = new int [tamanhoVetor];
             int y [] = new int [tamanhoVetor];
 
             for(int i = 0; i < tamanhoVetor; i++) // não pode ser i < número de vértices, tem que ser i < tamanho do vetor
             {
-                x[i] = Integer.parseInt(quebrador.nextToken());
-                y[i] = Integer.parseInt(quebrador.nextToken());
+                x[i] = Math.abs(Integer.parseInt(quebrador.nextToken()));
+                y[i] = Math.abs(Integer.parseInt(quebrador.nextToken()));
             }
 
             Color cor = new Color (Integer.parseInt(quebrador.nextToken()),  // R
                                    Integer.parseInt(quebrador.nextToken()),  // G
                                    Integer.parseInt(quebrador.nextToken())); // B
 
-            Color cor2 = new Color (Integer.parseInt(quebrador.nextToken()),  // R
-                                    Integer.parseInt(quebrador.nextToken()),  // G
-                                    Integer.parseInt(quebrador.nextToken())); // B
+            Color preenchimento = new Color (Integer.parseInt(quebrador.nextToken()),  // R
+                                             Integer.parseInt(quebrador.nextToken()),  // G
+                                             Integer.parseInt(quebrador.nextToken()),  // B
+                                             Integer.parseInt(quebrador.nextToken())); // Alpha
 
             this.numVert = numVert;
 
@@ -61,12 +63,22 @@ public class Poligono extends Figura
             this.y = y;
 
             this.cor            = cor;
-            this.preenchimento  = cor2;
+            this.preenchimento  = preenchimento;
         }
-        catch(Exception i)
+        catch(NumberFormatException i)
         {
-            System.out.println("Valores inválidos");
-        }       
+            JOptionPane.showMessageDialog (null,
+                                               "Os valores no arquivo são inválidos",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }
+        catch (IllegalArgumentException e)
+        {
+           JOptionPane.showMessageDialog (null,
+                                               "Pelo menos um dos valores das cores é inválido",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     //setters
@@ -142,7 +154,9 @@ public class Poligono extends Figura
                this.getPreenchimento().getRed() +
                 ":" +
                this.getPreenchimento().getGreen() +
-                ":" +
-               this.getPreenchimento().getBlue();
+               ":" +
+               this.getPreenchimento().getBlue() +
+               ":" +
+               this.getPreenchimento().getAlpha();
     }   
 }

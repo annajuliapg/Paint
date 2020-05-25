@@ -1,4 +1,5 @@
 import java.awt.*;
+import javax.swing.JOptionPane;
 
 public abstract class Figura
 {
@@ -20,21 +21,39 @@ public abstract class Figura
     {
        try
        {
-          this.setCor (cor, preenchimento); 
+          this.setCor (cor);
+          this.setPreenchimento(preenchimento);
        }
-       catch (Exception e)
+       catch (IllegalArgumentException e)
        {
-           System.out.println("Valores de cores inválidos");
+           JOptionPane.showMessageDialog (null,
+                                               "Pelo menos um dos valores das cores é inválido",
+                                               "Valores inválidos",
+                                               JOptionPane.WARNING_MESSAGE);
        }
     }
     
-    
     // setters
-    public void setCor (Color cor, Color preenchimento)
+    public void setCor (Color cor) throws IllegalArgumentException
     {
-        this.cor = cor;
-        this.preenchimento = preenchimento;
+        if((cor.getRed() > 255)||(cor.getGreen() > 255)||(cor.getBlue() > 255))
+           throw new IllegalArgumentException ("Valores de cor inválidos");
         
+        if((cor.getRed() < 0)||(cor.getGreen() < 0)||(cor.getBlue() < 0))
+           throw new IllegalArgumentException ("Valores de cor inválidos");
+        
+        this.cor = cor;     
+    }
+    
+    public void setPreenchimento (Color preenchimento) throws IllegalArgumentException
+    {
+       if((preenchimento.getRed() > 255)||(preenchimento.getGreen() > 255)||(preenchimento.getBlue() > 255)||(preenchimento.getAlpha() > 255))
+           throw new IllegalArgumentException ("Valores de cor inválidos");
+       
+       if((preenchimento.getRed() < 0)||(preenchimento.getGreen() < 0)||(preenchimento.getBlue() < 0)||(preenchimento.getAlpha() < 0))
+           throw new IllegalArgumentException ("Valores de cor inválidos");
+       
+        this.preenchimento = preenchimento;
     }
     
     // getters
@@ -47,8 +66,7 @@ public abstract class Figura
     {
     	return this.preenchimento;        
     }
-    
-
+   
   //public abstract boolean equals         (Object obj);
   //public abstract int     hashCode       ();
   //public abstract Object  clone          ();
