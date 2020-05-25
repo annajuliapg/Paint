@@ -34,26 +34,14 @@ public abstract class Figura
     }
     
     // setters
-    public void setCor (Color cor) throws IllegalArgumentException
+    public void setCor (Color cor)
     {
-        if((cor.getRed() > 255)||(cor.getGreen() > 255)||(cor.getBlue() > 255))
-           throw new IllegalArgumentException ("Valores de cor inválidos");
-        
-        if((cor.getRed() < 0)||(cor.getGreen() < 0)||(cor.getBlue() < 0))
-           throw new IllegalArgumentException ("Valores de cor inválidos");
-        
-        this.cor = cor;     
+       this.cor = cor;     
     }
     
-    public void setPreenchimento (Color preenchimento) throws IllegalArgumentException
+    public void setPreenchimento (Color preenchimento)
     {
-       if((preenchimento.getRed() > 255)||(preenchimento.getGreen() > 255)||(preenchimento.getBlue() > 255)||(preenchimento.getAlpha() > 255))
-           throw new IllegalArgumentException ("Valores de cor inválidos");
-       
-       if((preenchimento.getRed() < 0)||(preenchimento.getGreen() < 0)||(preenchimento.getBlue() < 0)||(preenchimento.getAlpha() < 0))
-           throw new IllegalArgumentException ("Valores de cor inválidos");
-       
-        this.preenchimento = preenchimento;
+       this.preenchimento = preenchimento;
     }
     
     // getters
