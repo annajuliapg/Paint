@@ -248,5 +248,41 @@ public class Quadrado extends Figura
                this.getPreenchimento().getBlue() +
                ":" +
                this.getPreenchimento().getAlpha();
-    }  
+    }
+
+    @Override
+    public int hashCode() 
+    {
+        int hash = 3;
+        hash = 59 * hash + Arrays.hashCode(this.x);
+        hash = 59 * hash + Arrays.hashCode(this.y);
+        hash = 59 * hash + this.lado;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) 
+            return true;
+        
+        if (obj == null) 
+            return false;
+        
+        if (getClass() != obj.getClass()) 
+            return false;
+        
+        final Quadrado other = (Quadrado) obj;
+        
+        if (this.lado != other.lado) 
+            return false;
+        
+        if (!Arrays.equals(this.x, other.x)) 
+            return false;
+        
+        if (!Arrays.equals(this.y, other.y)) 
+            return false;
+        
+        return true;
+    }
 }

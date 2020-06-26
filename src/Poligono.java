@@ -158,5 +158,45 @@ public class Poligono extends Figura
                this.getPreenchimento().getBlue() +
                ":" +
                this.getPreenchimento().getAlpha();
-    }   
+    }
+
+    @Override
+    public int hashCode() 
+    {
+        int hash = 5;
+        hash = 53 * hash + this.tamanhoVetor;
+        hash = 53 * hash + Arrays.hashCode(this.x);
+        hash = 53 * hash + Arrays.hashCode(this.y);
+        hash = 53 * hash + this.numVert;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) 
+            return true;
+        
+        if (obj == null) 
+            return false;
+        
+        if (getClass() != obj.getClass()) 
+            return false;
+        
+        final Poligono other = (Poligono) obj;
+        
+        if (this.tamanhoVetor != other.tamanhoVetor) 
+            return false;
+        
+        if (this.numVert != other.numVert) 
+            return false;
+        
+        if (!Arrays.equals(this.x, other.x)) 
+            return false;
+        
+        if (!Arrays.equals(this.y, other.y)) 
+            return false;
+        
+        return true;
+    }
 }

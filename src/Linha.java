@@ -104,4 +104,39 @@ public class Linha extends Figura
                ":" +
                this.getCor().getBlue();
     }
+
+    @Override
+    public int hashCode() 
+    {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.p1);
+        hash = 37 * hash + Objects.hashCode(this.p2);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) 
+            return true;
+        
+        if (obj == null) 
+            return false;
+        
+        if (getClass() != obj.getClass()) 
+            return false;
+        
+        final Linha other = (Linha) obj;
+        
+        if (!Objects.equals(this.p1, other.p1)) 
+            return false;
+        
+        if (!Objects.equals(this.p2, other.p2)) 
+            return false;
+        
+        return true;
+    }
+    
+    
+    
 }

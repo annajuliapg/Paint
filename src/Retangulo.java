@@ -221,5 +221,36 @@ public class Retangulo extends Figura
                ":" +
                this.getPreenchimento().getAlpha();
     }
-   
+
+    @Override
+    public int hashCode() 
+    {
+        int hash = 5;
+        hash = 67 * hash + Arrays.hashCode(this.x);
+        hash = 67 * hash + Arrays.hashCode(this.y);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj)
+            return true;
+        
+        if (obj == null)
+            return false;
+        
+        if (getClass() != obj.getClass()) 
+            return false;
+        
+        final Retangulo other = (Retangulo) obj;
+        
+        if (!Arrays.equals(this.x, other.x))
+            return false;
+        
+        if (!Arrays.equals(this.y, other.y)) 
+            return false;
+        
+        return true;
+    }
 }

@@ -79,6 +79,7 @@ public class Ponto extends Figura
     	g.drawLine (this.x,this.y,this.x,this.y);        
     }
 
+    @Override
     public String toString()
     {
         return "p:" +
@@ -92,4 +93,36 @@ public class Ponto extends Figura
                ":" +
                this.getCor().getBlue();
     }
+
+    @Override
+    public int hashCode() 
+    {
+        int hash = 7;
+        hash = 73 * hash + this.x;
+        hash = 73 * hash + this.y;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) 
+            return true;
+        
+        if (obj == null) 
+            return false;
+        
+        if (getClass() != obj.getClass()) 
+            return false;
+        
+        final Ponto other = (Ponto) obj;
+        
+        if (this.x != other.x) 
+            return false;
+        
+        if (this.y != other.y) 
+            return false;
+        
+        return true;
+    } 
 }

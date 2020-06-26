@@ -124,4 +124,36 @@ public class Circulo extends Figura
                ":" +
                this.getPreenchimento().getAlpha();
     }
+
+    @Override
+    public int hashCode() 
+    {
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.centro);
+        hash = 83 * hash + this.raio;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) 
+            return true;
+        
+        if (obj == null) 
+            return false;
+        
+        if (getClass() != obj.getClass()) 
+            return false;
+        
+        final Circulo other = (Circulo) obj;
+        
+        if (this.raio != other.raio) 
+            return false;
+        
+        if (!Objects.equals(this.centro, other.centro)) 
+            return false;
+        
+        return true;
+    }
 }

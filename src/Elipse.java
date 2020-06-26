@@ -190,4 +190,44 @@ public class Elipse extends Figura
                ":" +
                this.getPreenchimento().getAlpha();                
     }
+
+    @Override
+    public int hashCode() 
+    {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.p1);
+        hash = 23 * hash + Objects.hashCode(this.p2);
+        hash = 23 * hash + this.largura;
+        hash = 23 * hash + this.altura;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) 
+            return true;
+        
+        if (obj == null) 
+            return false;
+        
+        if (getClass() != obj.getClass()) 
+            return false;
+        
+        final Elipse other = (Elipse) obj;
+        
+        if (this.largura != other.largura) 
+            return false;
+        
+        if (this.altura != other.altura) 
+            return false;
+        
+        if (!Objects.equals(this.p1, other.p1)) 
+            return false;
+        
+        if (!Objects.equals(this.p2, other.p2)) 
+            return false;
+        
+        return true;
+    }
 }

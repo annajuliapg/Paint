@@ -6,7 +6,6 @@ public abstract class Figura
     protected Color cor;
     protected Color preenchimento;
     
-	  
     protected Figura ()
     {
         this (Color.BLACK);
@@ -55,9 +54,14 @@ public abstract class Figura
     	return this.preenchimento;        
     }
    
-  //public abstract boolean equals         (Object obj);
-  //public abstract int     hashCode       ();
-  //public abstract Object  clone          ();
-    public abstract String  toString       ();
+    @Override
+    public abstract boolean equals(Object obj);
+    
+    @Override
+    public abstract int hashCode();
+    
+    @Override
+    public abstract String toString();
+    
     public abstract void    torneSeVisivel (Graphics g);
 }

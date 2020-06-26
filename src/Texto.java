@@ -9,15 +9,18 @@ public class Texto extends Figura
     protected String texto;
     protected Font fonte;    
        
-    public Texto (int x, int y, String texto, Font fonte) 
+    public Texto (int x, int y, String texto, Font fonte) throws Exception 
     {        
         this (x, y, texto, Color.BLACK, fonte);
     }
        
-    public Texto (int x, int y, String texto, Color cor, Font fonte) 
+    public Texto (int x, int y, String texto, Color cor, Font fonte) throws Exception
     {        
         super (cor);
- 
+        
+        if("".equals(texto))
+            throw new Exception ("Texto null");
+        
         this.posição = new Ponto (x,y);
         
         this.texto   = texto;
@@ -120,6 +123,41 @@ public class Texto extends Figura
                this.fonte.getStyle() +
                ":" +
                this.fonte.getSize();
+    }    
+
+    @Override
+    public int hashCode() 
+    {
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.posição);
+        hash = 41 * hash + Objects.hashCode(this.texto);
+        hash = 41 * hash + Objects.hashCode(this.fonte);
+        return hash;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj) 
+            return true;
+        
+        if (obj == null) 
+            return false;
+        
+        if (getClass() != obj.getClass()) 
+            return false;
+        
+        final Texto other = (Texto) obj;
+        
+        if (!Objects.equals(this.texto, other.texto)) 
+            return false;
+        
+        if (!Objects.equals(this.posição, other.posição)) 
+            return false;
+        
+        if (!Objects.equals(this.fonte, other.fonte))
+            return false;
+        
+        return true;
+    }
 }
