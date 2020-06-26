@@ -749,11 +749,8 @@ public class Janela extends JFrame
 
                             stringTexto = JOptionPane.showInputDialog(null, "Texto:", "Escrever", JOptionPane.PLAIN_MESSAGE);
 
-                            if((stringTexto != null) && (!stringTexto.isEmpty()))
-                            {
-                              figuras.add (new Texto(p1.getX(), p1.getY(), stringTexto, corAtual, fonteTexto));
-                              figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());  
-                            }
+                            figuras.add (new Texto(p1.getX(), p1.getY(), stringTexto, corAtual, fonteTexto));
+                            figuras.get(figuras.size()-1).torneSeVisivel(pnlDesenho.getGraphics());
 
                             esperaInicioTexto = true;
                         }
