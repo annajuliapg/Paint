@@ -1,6 +1,5 @@
 # Compiled class file
 /src/*.class
-/bin/*
 
 # Log file
 *.log
@@ -25,3 +24,6 @@ hs_err_pid*
 
 #pasta .git
 ..git/
+
+#bin
+.bin/*
