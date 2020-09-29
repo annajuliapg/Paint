@@ -1,6 +1,8 @@
+# Paint
 
+Um programa de desenhos em tela, com a opção de salvamento em arquivo.
 
-**PROGRESSO**
+**FUNÇÕES**
 
 
 Fase I
@@ -24,13 +26,12 @@ Fase II
 
 **c)Implementar o desenho de polígonos, clicando em seus vértices. OK**
 
-**d)Implementar  a  escrita  de  texto (clica-se  em  uma  área,  mostra  o  texto  conforme  o  usuário digita). OK**
+**d)Implementar  a  escrita  de  texto (com mudança de tamanho, cor e fonte). OK**
 
 
 Fase III 
 
-**a) Implementar o uso contínuo de ferramenta, ou seja, escolhida uma ferramenta ela só deixaria
-de ser usada quando outra fosse escolhida; OK**
+**a) Implementar o uso contínuo de ferramenta, ou seja, escolhida uma ferramenta ela só deixaria de ser usada quando outra fosse escolhida; OK**
 
 **b) Implementar o desenho contínuo, ou seja, o desenho deve ir ocorrendo, crescendo ou diminuindo, à medida que o mouse é arrastado. OK**
 

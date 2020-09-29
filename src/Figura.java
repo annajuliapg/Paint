@@ -3,6 +3,8 @@ import javax.swing.JOptionPane;
 
 public abstract class Figura
 {
+    // "cor" é a cor do contorno
+    
     protected Color cor;
     protected Color preenchimento;
     

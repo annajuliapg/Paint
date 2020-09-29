@@ -12,5 +12,3 @@ public class Editor
        }        
     }
 }
-
-//VERSÂO FINAL

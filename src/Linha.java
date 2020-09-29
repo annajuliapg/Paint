@@ -135,8 +135,5 @@ public class Linha extends Figura
             return false;
         
         return true;
-    }
-    
-    
-    
+    }  
 }

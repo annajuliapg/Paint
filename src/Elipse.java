@@ -7,8 +7,6 @@ public class Elipse extends Figura
     protected Ponto p1, p2;
     protected int largura, altura;
     
-    // "cor" é a cor do contorno
-    
     public Elipse (int x1, int y1, int x2, int y2, int largura, int altura)
     {
         this (x1, y1, x2, y2, largura, altura, Color.BLACK, Color.BLACK);
